@@ -30,20 +30,19 @@ export function PaymentSection({ recipient, amount, lang, comment }: Props) {
   const t = texts[lang];
 
   const buildCommentPayload = async (title?: string, pkgId?: string): Promise<string | undefined> => {
-    // Собираем комментарий: "[<pkgId>] <title> | buyer: <address>"
-    const buyer = userFriendlyAddress || wallet?.account?.address;
-    const titlePart = title ? `${title}` : '';
-    const idPart = pkgId ? `[${pkgId}] ` : '';
-    const buyerPart = buyer ? ` | buyer: ${buyer}` : '';
-    const text = `${idPart}${titlePart}${buyerPart}`.trim();
-    if (!text) return undefined;
+    // DEBUG: Temporarily send a simple comment to isolate payload issues.
+    const text = 'LFG simple test'; // Static short comment
+
     // Dynamic import avoids Buffer init race
     const { beginCell } = await import('@ton/core');
     const cell = beginCell().storeUint(0, 32).storeStringTail(text).endCell();
     return bytesToBase64(cell.toBoc());
   };
 
-  const handlePay = async () => {
+    const handlePay = async () => {
+    console.log('handlePay called');
+    console.log('Wallet object:', wallet);
+    console.log('Is wallet connected?', !!wallet?.account);
     const paymentAmount = amount ?? parseFloat(customAmount);
     if (!isFinite(paymentAmount) || paymentAmount <= 0) return;
 
