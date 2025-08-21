@@ -15,7 +15,7 @@ try {
 } catch {}
 
 createRoot(document.getElementById('root')!).render(
-  <TonConnectUIProvider manifestUrl="/tonconnect-manifest.json">
+  <TonConnectUIProvider manifestUrl="/api/manifest">
     <App />
   </TonConnectUIProvider>
 );
