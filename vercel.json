@@ -4,7 +4,13 @@
     { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "dist" } }
   ],
   "routes": [
-    { "handle": "filesystem" },
+    { "src": "/favicon.svg", "dest": "/favicon.svg" },
+    { "src": "/tonconnect-manifest.json", "dest": "/tonconnect-manifest.json" },
+    { "src": "/robots.txt", "dest": "/robots.txt" },
+    { "src": "/sitemap.xml", "dest": "/sitemap.xml" },
+    { "src": "/ai.txt", "dest": "/ai.txt" },
+    { "src": "/ai-crawler-catalog.json", "dest": "/ai-crawler-catalog.json" },
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
