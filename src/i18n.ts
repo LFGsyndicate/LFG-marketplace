@@ -1,32 +1,63 @@
 export type Lang = 'ru' | 'en';
 
-export const texts: Record<Lang, {
-  title: string;
-  subtitle: string;
-  pay: string;
-  connect: string;
-  amountPlaceholder: string;
-  success: string;
-  error: string;
-}> = {
+export const texts = {
   ru: {
-    title: 'LFG to AI',
-    subtitle: 'Один клик к ИИ‑автоматизации. Оплата в TON.',
+    servicesTitle: '54+ готовых AI-решений с гарантированным ROI',
+    customPaymentTitle: 'Свободный платеж',
+    customPaymentSubtitle: 'Вы можете поддержать проект или оплатить кастомную услугу, указав сумму в TON.',
+    helpButton: 'Помощь с выбором',
+    payButton: 'Оплатить',
+    servicesList: 'Список',
+    solution: 'Решение',
+    deliverables: 'Что входит',
+    benefit: 'Результат',
+    example: 'Пример',
+    contacts: 'Контакты',
+    footerDisclaimer: 'Все платежи в TON. Безопасно. Децентрализованно. Прозрачно.',
     pay: 'Оплатить',
-    connect: 'Подключить кошелёк',
-    amountPlaceholder: 'Сумма в TON (например, 10)',
-    success: 'Транзакция отправлена в сеть TON',
-    error: 'Не удалось отправить транзакцию'
+    amountPlaceholder: 'Сумма',
+    success: 'Оплата прошла успешно!',
+    error: 'Ошибка при оплате.',
+    allCategories: 'Все',
+    categories: {
+      'AI-сотрудники': 'AI-сотрудники',
+      'Маркетинг и Продажи': 'Маркетинг и Продажи',
+      'Клиентский сервис': 'Клиентский сервис',
+      'Внутренние процессы': 'Внутренние процессы',
+      'Контент и Медиа': 'Контент и Медиа',
+      'Малый бизнес и Стартапы': 'Малый бизнес и Стартапы',
+      'IT и Разработка': 'IT и Разработка',
+      'Аналитика и Решения': 'Аналитика и Решения',
+    },
   },
   en: {
-    title: 'LFG to AI',
-    subtitle: 'One click to AI automation. Pay with TON.',
+    servicesTitle: '54+ Ready AI Solutions with Guaranteed ROI',
+    customPaymentTitle: 'Custom Payment',
+    customPaymentSubtitle: 'You can support the project or pay for a custom service by specifying the amount in TON.',
+    helpButton: 'Help with choice',
+    payButton: 'Pay Now',
+    servicesList: 'Services List',
+    solution: 'Solution',
+    deliverables: 'What\'s included',
+    benefit: 'Result',
+    example: 'Example',
+    contacts: 'Contacts',
+    footerDisclaimer: 'All payments in TON. Secure. Decentralized. Transparent.',
     pay: 'Pay',
-    connect: 'Connect wallet',
-    amountPlaceholder: 'Amount in TON (e.g., 10)',
-    success: 'Transaction submitted to TON',
-    error: 'Failed to send transaction'
-  }
+    amountPlaceholder: 'Amount',
+    success: 'Payment successful!',
+    error: 'Payment error.',
+    allCategories: 'All',
+    categories: {
+      'AI-сотрудники': 'AI Employees',
+      'Маркетинг и Продажи': 'Marketing & Sales',
+      'Клиентский сервис': 'Customer Service',
+      'Внутренние процессы': 'Internal Processes',
+      'Контент и Медиа': 'Content & Media',
+      'Малый бизнес и Стартапы': 'Small Business & Startups',
+      'IT и Разработка': 'IT & Development',
+      'Аналитика и Решения': 'Analytics & Solutions',
+    },
+  },
 };
-
 

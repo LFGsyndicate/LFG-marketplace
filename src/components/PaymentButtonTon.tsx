@@ -1,38 +1,82 @@
 import { useState } from 'react';
-import { TonConnectButton, useTonConnectUI } from '@tonconnect/ui-react';
+import { TonConnectButton, useTonConnectUI, useTonWallet, useTonAddress } from '@tonconnect/ui-react';
+// Ensure Buffer exists before loading @ton/core (dynamic import used below)
+import { Buffer } from 'buffer';
+(window as any).Buffer = (window as any).Buffer || Buffer;
 import { texts } from '../i18n';
+import { toast } from '@/components/ui/sonner';
 
 type Props = {
   recipient: string;
   amount?: number; // Сумма в TON, опционально
   lang: keyof typeof texts;
+  comment?: string; // Заголовок услуги (локализованный)
 };
 
 const toNano = (tons: number): string => Math.round(tons * 1e9).toString();
 
-export function PaymentSection({ recipient, amount, lang }: Props) {
+const bytesToBase64 = (bytes: Uint8Array): string => {
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+  // btoa is browser-safe base64
+  return btoa(binary);
+};
+
+export function PaymentSection({ recipient, amount, lang, comment }: Props) {
   const [customAmount, setCustomAmount] = useState('');
   const [tonConnectUI] = useTonConnectUI();
+  const wallet = useTonWallet();
+  const userFriendlyAddress = useTonAddress(); // EQ...
   const t = texts[lang];
+
+  const buildCommentPayload = async (title?: string, pkgId?: string): Promise<string | undefined> => {
+    // Собираем комментарий: "[<pkgId>] <title> | buyer: <address>"
+    const buyer = userFriendlyAddress || wallet?.account?.address;
+    const titlePart = title ? `${title}` : '';
+    const idPart = pkgId ? `[${pkgId}] ` : '';
+    const buyerPart = buyer ? ` | buyer: ${buyer}` : '';
+    const text = `${idPart}${titlePart}${buyerPart}`.trim();
+    if (!text) return undefined;
+    // Dynamic import avoids Buffer init race
+    const { beginCell } = await import('@ton/core');
+    const cell = beginCell().storeUint(0, 32).storeStringTail(text).endCell();
+    return bytesToBase64(cell.toBoc());
+  };
 
   const handlePay = async () => {
     const paymentAmount = amount ?? parseFloat(customAmount);
     if (!isFinite(paymentAmount) || paymentAmount <= 0) return;
 
     try {
+      // Требуем подключение кошелька перед оплатой
+      if (!wallet?.account) {
+        toast("Ожидание подключения кошелька");
+        await tonConnectUI.openModal();
+        return; // пользователь подключит кошелек и нажмет снова
+      }
+
+      // Пытаемся извлечь packageId из комментария, если передан формально как "[ID] ..."
+      const maybeId = /\[([A-Z\-0-9]+)\]/i.exec(comment || '')?.[1];
+      const payload = await buildCommentPayload(comment, maybeId);
       await tonConnectUI.sendTransaction({
         validUntil: Math.floor(Date.now() / 1000) + 600, // 10 минут
         messages: [
           {
             address: recipient,
-            amount: toNano(paymentAmount)
+            amount: toNano(paymentAmount),
+            ...(payload ? { payload } : {})
           }
         ]
       });
       alert(t.success);
-    } catch (e) {
+    } catch (e: any) {
+      // Игнорируем отмену операции пользователем
+      if (typeof e?.message === 'string' && e.message.includes('Operation aborted')) {
+        toast("Платёж отменён");
+        return;
+      }
       console.error('TON Payment Error:', e);
-      alert(t.error);
+      toast("Ошибка оплаты");
     }
   };
 
@@ -41,7 +85,7 @@ export function PaymentSection({ recipient, amount, lang }: Props) {
       <TonConnectButton />
       {amount === undefined && (
         <input
-          className="w-24 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white placeholder:text-gray-400 text-sm"
+          className="w-32 px-3 py-2 bg-transparent border border-white/30 rounded text-white placeholder:text-gray-300 text-sm focus:border-white/60 focus:outline-none backdrop-blur-sm"
           type="text"
           inputMode="decimal"
           placeholder={t.amountPlaceholder}

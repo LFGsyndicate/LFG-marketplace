@@ -1,0 +1,441 @@
+{
+  "EMP-01": {
+    "packageName": "Virtual AI Employee",
+    "painPoint": "Is your workday filled with endless small tasks that keep you from focusing on strategy?",
+    "persuasiveDescription": "Get a luxury-class personal AI assistant that works like your deputy. It analyzes documents, prepares presentations, manages your calendar, and alerts you to critical KPIs. It’s like hiring a top manager, but 10x cheaper.",
+    "keyDeliverables": "Personal AI assistant: meeting scheduling, document analysis, report preparation, email management, KPI analytics.",
+    "quantifiableBenefit": "Saves 20–30 hours of executive time per week",
+    "example": "Before: 10 hours a day on routine. After: 2 hours of oversight, 8 hours for strategic business development."
+  },
+  "EMP-BC-01": {
+    "packageName": "AI Employee for Blockchain/DAO/Trading",
+    "painPoint": "Crypto markets run 24/7, but you’re human. Missing profitable trades due to emotions and fatigue?",
+    "persuasiveDescription": "An elite AI trader that analyzes hundreds of indicators simultaneously, immune to FOMO and greed. Trades by a strict strategy, manages risk, and operates around the clock across exchanges.",
+    "keyDeliverables": "AI for market analysis, automated trading, DAO process management, blockchain transaction monitoring, risk management.",
+    "quantifiableBenefit": "Increase trading profitability up to 40%",
+    "example": "Before: Manual trading with 60% profitable trades. After: AI system with 75%+ win rate and strict risk control."
+  },
+  "EMP-02": {
+    "packageName": "AI Employee for Fintech and Banking",
+    "painPoint": "Regulations are tightening while manual document handling creates risks and slows processes?",
+    "persuasiveDescription": "An AI employee for finance is your digital compliance officer. It automatically screens clients against sanctions lists, assesses creditworthiness, and generates regulatory reports with zero errors.",
+    "keyDeliverables": "AI for credit scoring, transaction monitoring, KYC/AML automation, risk management, and regulatory reporting.",
+    "quantifiableBenefit": "Reduce operational risk by 60%, accelerate application processing 5x",
+    "example": "Before: A credit application takes 3 days. After: AI analyzes it in 15 minutes with detailed risk scoring."
+  },
+
+  "MKT-01": {
+    "packageName": "AI Content Master for SMM",
+    "painPoint": "Burned out creating posts that don’t ‘hit’?",
+    "persuasiveDescription": "Imagine a tireless SMM intern working 24/7, analyzing trends and generating ideas. Our AI does exactly that: it doesn’t just write copy — it creates an engaging content strategy.",
+    "keyDeliverables": "Generate content plan, copy, images; autoposting.",
+    "quantifiableBenefit": "Save up to 80% of time",
+    "example": "Before: 20 hours/week on SMM, reach 5,000. After: 2 hours/week, reach 25,000 thanks to viral formats."
+  },
+  "MKT-02": {
+    "packageName": "AI Copywriter for E‑commerce",
+    "painPoint": "Your product descriptions sound dry and don’t motivate purchases?",
+    "persuasiveDescription": "Your product is great, but the description is its ‘salesperson’. Our AI copywriter is your best seller who knows buyer psychology and turns interest into purchase.",
+    "keyDeliverables": "SEO product descriptions, email copy, ad creatives.",
+    "quantifiableBenefit": "Increase product page conversion by ~15%",
+    "example": "Before: ‘Red dress, cotton’. After: ‘Feel like a star in this flowing cotton dress — perfect for summer evenings and admiring glances.’"
+  },
+  "MKT-03": {
+    "packageName": "AI Ad Campaign Analyst",
+    "painPoint": "Bleeding ad budget daily without knowing what actually works?",
+    "persuasiveDescription": "Stop guessing. Our AI analyst is like a financial auditor for your ad account. It finds ‘black holes’ where budget leaks and highlights ‘gold mines’ — the most effective combinations.",
+    "keyDeliverables": "Campaign analysis, weekly optimization recommendations.",
+    "quantifiableBenefit": "Reduce CPL by up to 30%",
+    "example": "Before: 100,000₽ budget, 50 leads. After: AI removed ineffective keys and reallocated spend. Result: 70,000₽ budget, 65 leads."
+  },
+  "MKT-04": {
+    "packageName": "AI Lead Generator 360",
+    "painPoint": "Sales reps spend 80% of time cold‑calling instead of selling?",
+    "persuasiveDescription": "Free your hunters from routine prospecting. Our AI scours the web, finds ideal clients, pre‑warms them, and passes sales‑ready leads to your reps.",
+    "keyDeliverables": "Lead search and scoring, personalized email sequences.",
+    "quantifiableBenefit": "Increase qualified lead flow by 40%",
+    "example": "Before: 1 rep = 5 meetings/week. After: 1 rep + AI Lead Gen = 15 meetings/week with target clients."
+  },
+  "MKT-05": {
+    "packageName": "AI SEO Optimizer",
+    "painPoint": "Your site is a beautiful storefront in a dead‑end alley — no one visits?",
+    "persuasiveDescription": "We don’t just write keyword articles — we build an ‘information highway’ to your site. AI analyzes competitors, finds requests seeking you, and creates content loved by Google and Yandex.",
+    "keyDeliverables": "Site audit, semantic core, 20 SEO articles, technical audit.",
+    "quantifiableBenefit": "Grow organic traffic by 50%+",
+    "example": "Before: 100 monthly search visitors. After months of work: 1,500+ monthly visitors via target queries."
+  },
+  "MKT-06": {
+    "packageName": "AI Viral Video Factory",
+    "painPoint": "Want video content but fear the camera or lack studio budget?",
+    "persuasiveDescription": "A photorealistic digital avatar can be your face and voice that never tires or errs. Create courses, news, ads with tech once reserved for film studios.",
+    "keyDeliverables": "Script generation, voiceover, and editing with a photorealistic avatar.",
+    "quantifiableBenefit": "Produce professional videos without filming",
+    "example": "Before: 0 videos/month. After: regular professional releases for social media with a single team."
+  },
+  "MKT-07": {
+    "packageName": "AI Targeting Pro",
+    "painPoint": "Wasting budget on ineffective creatives and unable to scale winners?",
+    "persuasiveDescription": "AI media buyer works like a 10‑person team: tests thousands of combinations, finds winning sets, and auto‑shifts budget to the best performers.",
+    "keyDeliverables": "Real‑time bid, audience, and creative management. Auto A/B testing and scaling.",
+    "quantifiableBenefit": "Cut CPA by 40%, grow ROAS by 60%",
+    "example": "Before: ROAS 2.5 with weekly manual optimization. After: ROAS 4.1 with continuous 15‑minute optimization cycles."
+  },
+  "MKT-08": {
+    "packageName": "AI Sales Funnel",
+    "painPoint": "Leads cool in CRM and reps work by gut feeling, not priorities?",
+    "persuasiveDescription": "AI knows which lead will buy tomorrow and which in six months. It auto‑sends the right materials at the right time and prompts the perfect call moment.",
+    "keyDeliverables": "Lead scoring, personalized sequences, automated offers, deal closing forecasts.",
+    "quantifiableBenefit": "Increase conversion to sales by 45%",
+    "example": "Before: 5% of leads convert. After: 12% close thanks to smart nurturing."
+  },
+  "MKT-09": {
+    "packageName": "AI Influence for Creators",
+    "painPoint": "A million followers but revenue only from ads? Want to sell your expertise but don’t know how?",
+    "persuasiveDescription": "AI analyzes your audience and creates personal products that solve their problems — from mini‑courses to coaching — all automated.",
+    "keyDeliverables": "Audience analysis, personal product creation, AI coach for followers, automated sales of courses and consulting.",
+    "quantifiableBenefit": "Increase revenue per follower 3–5x",
+    "example": "Before: $2,000/mo from ads. After: $8,000/mo from ads + courses + AI coaching."
+  },
+
+  "SRV-01": {
+    "packageName": "AI Frontline Chatbot",
+    "painPoint": "Losing customers at night and on weekends because agents aren’t available?",
+    "persuasiveDescription": "Hire the perfect support agent who works 24/7 with no breaks. Our AI bot resolves most customer questions on the spot.",
+    "keyDeliverables": "Chatbot integration on website and messengers, handling typical requests.",
+    "quantifiableBenefit": "Significant reduction in response time",
+    "example": "Before: Customers wait hours and churn. After: Quick responses, orders placed, positive reviews."
+  },
+  "SRV-02": {
+    "packageName": "AI Voice Assistant",
+    "painPoint": "Customers get stuck in IVR mazes and smash ‘0’ in frustration?",
+    "persuasiveDescription": "Replace outdated IVR with a smart voice assistant that understands natural speech and routes requests correctly.",
+    "keyDeliverables": "Intelligent IVR with speech recognition, call routing.",
+    "quantifiableBenefit": "Automate the majority of inbound calls",
+    "example": "Before: Long queue times. After: Most calls handled automatically without human involvement."
+  },
+  "SRV-03": {
+    "packageName": "AI Predictive Support",
+    "painPoint": "You learn about churn only when the client has already left?",
+    "persuasiveDescription": "Our AI is an early warning system. It analyzes thousands of signals and predicts which clients may churn, giving you time to retain them.",
+    "keyDeliverables": "Customer behavior analysis to detect churn risk and automated offers.",
+    "quantifiableBenefit": "Improved customer retention",
+    "example": "Before: 10% monthly churn. After: Churn decreases thanks to proactive engagement."
+  },
+  "SRV-04": {
+    "packageName": "AI Self‑Service Portal",
+    "painPoint": "Your support team answers the same questions 100 times a day?",
+    "persuasiveDescription": "Create a ‘Google’ for your product. The AI portal lets clients find answers themselves, freeing your team for complex issues.",
+    "keyDeliverables": "Interactive knowledge base with AI search.",
+    "quantifiableBenefit": "Reduce support tickets by up to 40%",
+    "example": "Before: 500 tickets/month. After: 300 tickets — clients find answers in the AI knowledge base."
+  },
+  "SRV-05": {
+    "packageName": "AI Review Manager",
+    "painPoint": "Negative reviews kill your reputation and you don’t have time to answer all?",
+    "persuasiveDescription": "AI monitors your reputation 24/7, replies instantly with personalized messages, and turns unhappy clients into loyal ones.",
+    "keyDeliverables": "Review monitoring across platforms, personalized responses, positive review stimulation, proactive issue handling.",
+    "quantifiableBenefit": "Increase average rating by 0.8 in 3 months",
+    "example": "Before: 3.8 rating, half of reviews unanswered. After: 4.6 rating, all reviews handled, negativity resolved."
+  },
+  "SRV-06": {
+    "packageName": "AI E‑learning Assistant",
+    "painPoint": "Students drop courses halfway and personal support costs more than the course?",
+    "persuasiveDescription": "The AI tutor knows each student’s pace, problems, and motivation. It adapts the program to the person and prevents drop‑offs.",
+    "keyDeliverables": "AI tutor, adaptive content delivery, progress analysis, personal recommendations, motivation system.",
+    "quantifiableBenefit": "Increase course completion rate by 60%",
+    "example": "Before: 25% complete the course. After: 65% completion + high ratings + repeat purchases."
+  },
+  "SRV-07": {
+    "packageName": "AI Real‑time Translator",
+    "painPoint": "Losing international clients due to language barriers and high translator costs?",
+    "persuasiveDescription": "AI translates in real time while preserving meaning and tone. Your support team can serve clients from any country.",
+    "keyDeliverables": "Instant translation of chats, calls, documents. 50+ languages, context and tone preservation, CRM integration.",
+    "quantifiableBenefit": "Serve customers in any language without translators",
+    "example": "Before: Only Russian‑speaking clients. After: Support for clients from 15 countries in their native language."
+  },
+
+  "OPS-01": {
+    "packageName": "AI Document Automation",
+    "painPoint": "Employees drown in paperwork and manually retype invoice data into ERP?",
+    "persuasiveDescription": "AI scans, reads, and posts documents into your systems. It never tires, avoids typos, and finds the right document in a second.",
+    "keyDeliverables": "Recognition, classification, and data entry from invoices, acts, contracts.",
+    "quantifiableBenefit": "Cut errors by 85%, 6x faster processing",
+    "example": "Before: Processing 100 invoices takes a workday. After: AI handles 100 invoices in minutes."
+  },
+  "OPS-02": {
+    "packageName": "AI HR Assistant",
+    "painPoint": "HR spends days reviewing hundreds of irrelevant resumes?",
+    "persuasiveDescription": "AI reads resumes, shortlists best candidates, and can run initial interviews.",
+    "keyDeliverables": "Intelligent resume screening, interview automation, onboarding.",
+    "quantifiableBenefit": "Cut time‑to‑hire by 40%",
+    "example": "Before: Weeks on resume screening. After: Hours — and the best candidates on your desk."
+  },
+  "OPS-03": {
+    "packageName": "AI Financial Forecaster",
+    "painPoint": "Managing finances ‘blindly’, unaware of cash in a month?",
+    "persuasiveDescription": "Get accurate cash‑flow forecasts and early risk alerts.",
+    "keyDeliverables": "Financial data analysis, cash‑flow forecasting, risk detection.",
+    "quantifiableBenefit": "Cash‑flow forecast accuracy up to 95%",
+    "example": "Before: Unexpected cash gap. After: Early warning and preventive actions."
+  },
+  "OPS-04": {
+    "packageName": "AI Logistics Optimizer",
+    "painPoint": "Delivery costs eating your margin?",
+    "persuasiveDescription": "AI computes millions of route options and chooses the optimal one.",
+    "keyDeliverables": "Inventory management, delivery route optimization.",
+    "quantifiableBenefit": "Cut transport costs by up to 25%",
+    "example": "Before: 10 trucks drive chaotically. After: Optimal routing allows fewer trucks."
+  },
+  "OPS-05": {
+    "packageName": "AI Quality Control",
+    "painPoint": "Defects discovered only when the batch is finished and must be discarded?",
+    "persuasiveDescription": "AI spots micro‑defects invisible to humans and instantly removes faulty items from the line.",
+    "keyDeliverables": "Computer‑vision system for detecting defects on the production line.",
+    "quantifiableBenefit": "Reduce defect rate by 90%",
+    "example": "Before: 5% defects in finished goods. After: 0.1% caught at an early stage."
+  },
+  "OPS-06": {
+    "packageName": "AI Resource Planner",
+    "painPoint": "Equipment idle time, staff overtime, deadlines slipping?",
+    "persuasiveDescription": "AI sees the full production picture and finds the perfect balance: every resource used at max efficiency.",
+    "keyDeliverables": "Demand forecasting, equipment load optimization, shift planning, downtime minimization.",
+    "quantifiableBenefit": "Increase resource utilization by 35%",
+    "example": "Before: 60% equipment load, 20% missed deadlines. After: 85% load, 95% on‑time delivery."
+  },
+  "OPS-07": {
+    "packageName": "AI Safety Auditor",
+    "painPoint": "Incidents happen suddenly and safety checks are a formality?",
+    "persuasiveDescription": "AI monitors safety compliance 24/7 and warns about hazards before they become incidents.",
+    "keyDeliverables": "Workplace video analytics, violation detection, predictive risk analysis, automatic alerts.",
+    "quantifiableBenefit": "Reduce workplace injuries by 70%",
+    "example": "Before: 12 injuries/year, fines for violations. After: 2 minor incidents, full compliance."
+  },
+  "OPS-08": {
+    "packageName": "AI Cost Optimizer",
+    "painPoint": "Money leaks with unknown destination, and cost analysis takes months?",
+    "persuasiveDescription": "AI finds ‘black holes’ in budgets: unused subscriptions, overpriced tariffs, inefficient processes. Savings recoup the implementation in 2–3 months.",
+    "keyDeliverables": "Full cost analysis, anomaly detection, optimization recommendations, automatic budget overrun alerts.",
+    "quantifiableBenefit": "Save 15–25% of current expenses",
+    "example": "Before: $100k budget with $20k unclear spending. After: Same results for $80k with full transparency."
+  },
+
+  "CNT-01": {
+    "packageName": "AI Avatar Video Studio",
+    "painPoint": "Want a YouTube channel, but a single video costs a fortune?",
+    "persuasiveDescription": "A digital avatar can be your presenter: speaks any language and is available 24/7. Produce videos without cameras and crews.",
+    "keyDeliverables": "Full video production with realistic AI avatar: script, voiceover, editing.",
+    "quantifiableBenefit": "Cut video production costs up to 95%",
+    "example": "Before: 1 video/month with a big budget. After: Regular content at a reasonable cost."
+  },
+  "CNT-02": {
+    "packageName": "AI Music Generator",
+    "painPoint": "Afraid of lawsuits for music used in your videos?",
+    "persuasiveDescription": "The AI composer creates unique, royalty‑free music just for you.",
+    "keyDeliverables": "Generate unique background music and sound effects for videos and podcasts.",
+    "quantifiableBenefit": "100% legal music for any project",
+    "example": "Before: Hours searching stock music. After: A unique track of the needed length and mood in minutes."
+  },
+  "CNT-03": {
+    "packageName": "AI Viral Idea Generator",
+    "painPoint": "Creative block? Don’t know what to write or film?",
+    "persuasiveDescription": "AI analyzes what’s taking off in your niche and suggests data‑backed topics.",
+    "keyDeliverables": "Trend analysis across social media, search, and competitors.",
+    "quantifiableBenefit": "Increase content reach up to 300%",
+    "example": "Before: ‘What should we film about?’ After: ‘Here are 10 topics that will pop this week — and why.’"
+  },
+  "CNT-04": {
+    "packageName": "AI Editor & Proofreader",
+    "painPoint": "Your texts are correct but boring and unconvincing?",
+    "persuasiveDescription": "AI improves style, rhythm, and tone to make your writing compelling.",
+    "keyDeliverables": "Deep grammar, style, readability, and tone checks.",
+    "quantifiableBenefit": "Higher readability and clarity",
+    "example": "Before: ‘The company offers services…’ After: ‘Unlock possibilities with our solutions…’"
+  },
+  "CNT-05": {
+    "packageName": "AI Meeting Secretary",
+    "painPoint": "Forget what was decided after meetings?",
+    "persuasiveDescription": "AI records the meeting and produces a structured summary: who does what by when.",
+    "keyDeliverables": "Automatic transcription of video conferences and structured summaries.",
+    "quantifiableBenefit": "Save up to 5 hours/week on meeting follow‑ups",
+    "example": "Before: 1‑hour meeting + manual recap. After: 1‑hour meeting + instant summary."
+  },
+  "CNT-06": {
+    "packageName": "AI Podcast Autopilot",
+    "painPoint": "Recording takes 1 hour, but editing and packaging take a full day?",
+    "persuasiveDescription": "The AI producer handles the heavy lifting: cleans audio, cuts clips, writes descriptions, and even suggests next topics based on trends.",
+    "keyDeliverables": "AI generates topics, episode plans, processes audio, writes show notes, social clips.",
+    "quantifiableBenefit": "Reduce post‑production time by 80%",
+    "example": "Before: 1 episode/week with 6 hours of post. After: 3 episodes/week with 1 hour of final review."
+  },
+  "CNT-07": {
+    "packageName": "AI Creative Studio",
+    "painPoint": "Client asks for ‘20 more options’ and designers burn out?",
+    "persuasiveDescription": "The AI designer creates hundreds of variants in minutes, adapts to any size and style, freeing humans for conceptual work.",
+    "keyDeliverables": "AI generates design concepts, creates variations, adapts creatives across formats and platforms.",
+    "quantifiableBenefit": "3x designer productivity",
+    "example": "Before: 5 days for a creative series. After: 5 hours to approve from hundreds of AI options."
+  },
+  "CNT-08": {
+    "packageName": "AI Trend Hunter",
+    "painPoint": "Learn about trends when the hype is over? Content comes out ‘yesterday’?",
+    "persuasiveDescription": "AI detects trends at inception: analyzes millions of posts, finds patterns, and predicts what will go viral tomorrow.",
+    "keyDeliverables": "AI monitors social networks, analyzes emerging trends, predicts virality, builds a content plan.",
+    "quantifiableBenefit": "Hit trends 2–3 days ahead of competitors",
+    "example": "Before: Catch trends a week after the peak. After: Create viral content on the upswing."
+  },
+
+  "SMB-01": {
+    "packageName": "AI Assistant for Small Business",
+    "painPoint": "You do everything yourself and routine eats all your time?",
+    "persuasiveDescription": "The AI assistant handles customer replies, social posts, and newsletters so you can focus on growth.",
+    "keyDeliverables": "Simple chatbot, text and image generator, email automation.",
+    "quantifiableBenefit": "Quick start in automation without large investments",
+    "example": "Before: Owner answers messages till midnight. After: AI replies 24/7 while the owner plans strategy."
+  },
+  "SMB-02": {
+    "packageName": "AI Landing Pages",
+    "painPoint": "Need to test an idea quickly while landing development drags and costs a lot?",
+    "persuasiveDescription": "Describe your idea and AI will create a ready landing with copy, structure, and CTA. Ideal for tests and launches.",
+    "keyDeliverables": "Service for flexible generation of high‑converting one‑page sites from a description.",
+    "quantifiableBenefit": "Test hypotheses and launch promos faster",
+    "example": "Before: Idea → brief → a week waiting → edits → launch. After: Idea → ready landing → start collecting leads."
+  },
+  "SMB-03": {
+    "packageName": "AI Presentation Generator",
+    "painPoint": "Need a deck for investors but have neither time nor designer?",
+    "persuasiveDescription": "Describe the project — AI creates a professional presentation with structure, content, and design.",
+    "keyDeliverables": "Automated creation of professional presentations (pitch decks, proposals).",
+    "quantifiableBenefit": "Save team time",
+    "example": "Before: Weeks on a deck. After: A ready pitch deck quickly and without stress."
+  },
+  "SMB-04": {
+    "packageName": "AI Retail Demand Analysis",
+    "painPoint": "Over‑ordered goods freeze capital in the warehouse?",
+    "persuasiveDescription": "AI analyzes sales and predicts what to order and in what quantity.",
+    "keyDeliverables": "Demand forecasting for optimal purchasing.",
+    "quantifiableBenefit": "Cut storage costs by up to 20%",
+    "example": "Before: 500,000 RUB frozen in dead stock. After: Faster inventory turnover."
+  },
+  "SMB-05": {
+    "packageName": "AI Accountant for Sole Proprietors",
+    "painPoint": "Afraid of mistakes in reports and an accountant costs more than your profit?",
+    "persuasiveDescription": "The AI accountant runs the books automatically: scans receipts, calculates taxes, and reminds about deadlines. No errors, fines, or overpayments.",
+    "keyDeliverables": "Automatic ledger, tax calculation, report generation, deadline reminders.",
+    "quantifiableBenefit": "Save 10,000₽/month on accounting",
+    "example": "Before: 15,000₽/month accountant + stress. After: AI does it all — you focus on income."
+  },
+  "SMB-06": {
+    "packageName": "AI Conversion Master",
+    "painPoint": "Visitors come but don’t buy? Losing money on every click?",
+    "persuasiveDescription": "AI analyzes each visitor’s behavior and automatically optimizes the site for maximum conversion.",
+    "keyDeliverables": "Behavior analytics, A/B testing, UX optimization, personalized offers.",
+    "quantifiableBenefit": "Increase conversion by 25–40%",
+    "example": "Before: 1.2% conversion. After: 2.8% with the same traffic."
+  },
+  "SMB-07": {
+    "packageName": "AI Social Media Manager",
+    "painPoint": "Social media eats all your time with little results?",
+    "persuasiveDescription": "The AI manager runs all your social channels: creates content, replies to customers, and tracks trends.",
+    "keyDeliverables": "Post planning, content generation, competitor analysis, automated replies.",
+    "quantifiableBenefit": "Save 20 hours/week on SMM",
+    "example": "Before: 0 posts/week. After: Regular content, follower growth, more sales."
+  },
+  "SMB-08": {
+    "packageName": "AI Competitor Analyst",
+    "painPoint": "Competitors do something new and you find out too late?",
+    "persuasiveDescription": "AI watches competitors 24/7 and alerts on important changes in their strategy.",
+    "keyDeliverables": "Price, promo, and content monitoring with strategy analysis.",
+    "quantifiableBenefit": "Faster reaction to competitor actions",
+    "example": "Before: Learned about a promo a week late. After: Instant alerts and quick response."
+  },
+
+  "IT-01": {
+    "packageName": "AI Developer Copilot",
+    "painPoint": "Developers spend time on boilerplate and tests?",
+    "persuasiveDescription": "AI integrates into the IDE as a ‘second pilot’: completes code, finds bugs, and generates documentation.",
+    "keyDeliverables": "Smart code completion, bug finding, test and docs generation.",
+    "quantifiableBenefit": "Speed up development by up to 30%",
+    "example": "Before: Feature takes 5 days. After: Same feature delivered notably faster."
+  },
+  "IT-02": {
+    "packageName": "AI Code Security Auditor",
+    "painPoint": "Worried there’s a hole in your code where client data could leak?",
+    "persuasiveDescription": "The AI auditor scans code and suggests fixes to close vulnerabilities before release.",
+    "keyDeliverables": "Automated vulnerability scanning and analysis in source code.",
+    "quantifiableBenefit": "Prevent most common attacks",
+    "example": "Before: Vulnerability discovered by attackers. After: Fixed in advance."
+  },
+  "IT-03": {
+    "packageName": "AI DevOps Engineer",
+    "painPoint": "Servers crash at the worst time and deploys are a lottery?",
+    "persuasiveDescription": "AI DevOps predicts problems before they occur, auto‑scales resources, and deploys updates safely.",
+    "keyDeliverables": "CI/CD setup, auto‑scaling, performance monitoring, incident prediction and remediation.",
+    "quantifiableBenefit": "Reduce downtime by 90%",
+    "example": "Before: 2 hours downtime/month, stressful deploys. After: 5 minutes/year, confident releases."
+  },
+  "IT-04": {
+    "packageName": "AI Database Optimizer",
+    "painPoint": "Database is slow, users complain, and optimization feels like black magic?",
+    "persuasiveDescription": "AI analyzes millions of queries, finds bottlenecks, and automatically optimizes the database structure for max performance.",
+    "keyDeliverables": "Query analysis, index optimization, caching setup, bottleneck prediction.",
+    "quantifiableBenefit": "Speed up DB by 3–5x",
+    "example": "Before: Queries take 5s. After: 0.8s — happy users."
+  },
+  "IT-05": {
+    "packageName": "AI API Generator",
+    "painPoint": "Half the time goes to boilerplate API code and docs that age weekly?",
+    "persuasiveDescription": "AI generates API code, tests, and documentation from a simple description. Changes stay in sync everywhere.",
+    "keyDeliverables": "Generate REST/GraphQL API, automated tests, interactive docs, client SDKs.",
+    "quantifiableBenefit": "5x faster API development",
+    "example": "Before: 2 weeks for API + docs. After: 2 hours to configure — AI does the rest."
+  },
+
+  "ANL-01": {
+    "packageName": "AI Business Analytics Platform",
+    "painPoint": "You have gigabytes of data but don’t know what to conclude?",
+    "persuasiveDescription": "AI connects to your data, finds patterns, and highlights growth opportunities.",
+    "keyDeliverables": "Ready‑made solution for automating big‑data analysis.",
+    "quantifiableBenefit": "Reveal hidden patterns for business growth",
+    "example": "Before: ‘Looks like customers love blue.’ After: ‘Customers with similar traits buy more — let’s re‑prioritize.’"
+  },
+  "ANL-02": {
+    "packageName": "AI Reputation Monitoring",
+    "painPoint": "Do you hear about a negative review from the news?",
+    "persuasiveDescription": "AI monitors brand mentions 24/7 and instantly identifies sentiment.",
+    "keyDeliverables": "Sentiment analysis of brand mentions across social media, reviews, and press.",
+    "quantifiableBenefit": "Timely reaction to negativity",
+    "example": "Before: Recurring PR crises. After: Negative mentions handled promptly."
+  },
+  "ANL-03": {
+    "packageName": "AI Trend Predictor",
+    "painPoint": "React to market changes late and miss opportunities?",
+    "persuasiveDescription": "AI analyzes thousands of signals and predicts trends before they go mainstream. Be the first to adapt.",
+    "keyDeliverables": "Analyze social, news, sales data; predict trends; strategy recommendations.",
+    "quantifiableBenefit": "Outpace the market by 3–6 months",
+    "example": "Before: Learn about trends from Forbes. After: Launch product 4 months before competitors."
+  },
+  "ANL-04": {
+    "packageName": "AI Pricing Strategist",
+    "painPoint": "Prices set by gut: too high — no sales; too low — lost profit?",
+    "persuasiveDescription": "AI finds the optimal price for each product and customer: maximum profit with maximum sales.",
+    "keyDeliverables": "Competitor analysis, elasticity pricing, segmented personal prices, automatic price updates.",
+    "quantifiableBenefit": "Increase margin by 15–30% while keeping volume",
+    "example": "Before: Fixed prices, 20% average margin. After: Dynamic prices, 28% average margin."
+  },
+  "ANL-05": {
+    "packageName": "AI People Analytics",
+    "painPoint": "Top performers quit suddenly while issues remain invisible until critical?",
+    "persuasiveDescription": "AI analyzes hundreds of factors and predicts HR risks: who may quit, who to promote, and where to intervene.",
+    "keyDeliverables": "Engagement analysis, churn prediction, potential assessment, development recommendations.",
+    "quantifiableBenefit": "Reduce attrition by 40%, increase productivity by 25%",
+    "example": "Before: Top manager quit without notice. After: AI warned 2 months ahead — retention achieved."
+  },
+  "ANL-06": {
+    "packageName": "AI Investor Advisor",
+    "painPoint": "Investing emotionally, missing profitable deals, overlooking risks?",
+    "persuasiveDescription": "AI analyzes thousands of companies, finds undervalued assets, warns about risks, and builds an optimal portfolio.",
+    "keyDeliverables": "Company screening, financial analysis, risk assessment, portfolio recommendations.",
+    "quantifiableBenefit": "Boost portfolio returns by 20–40%",
+    "example": "Before: 8% annual returns with a few failures. After: 15% with balanced risk."
+  }
+}

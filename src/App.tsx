@@ -1,17 +1,20 @@
-import { useEffect, useMemo, useState } from 'react';
-import { texts, Lang } from './i18n';
+import { useState } from 'react';
 import Index from './pages/Index';
+import { TonConnectUIProvider } from '@tonconnect/ui-react';
+import './styles.css';
+import { Lang } from './i18n';
+import { Toaster } from '@/components/ui/sonner';
 
-export default function App() {
+function App() {
   const [lang, setLang] = useState<Lang>('ru');
 
-  useEffect(() => {
-    document.title = 'LFG to AI — TON Mini App';
-  }, []);
-
   return (
-    <Index lang={lang} onLangChange={setLang} />
+    <TonConnectUIProvider manifestUrl="https://lfg-syndicate.github.io/ton-dapp-vite/tonconnect-manifest.json">
+      <Index lang={lang} onLangChange={setLang} />
+      <Toaster richColors position="top-center" />
+    </TonConnectUIProvider>
   );
 }
 
+export default App;
 
