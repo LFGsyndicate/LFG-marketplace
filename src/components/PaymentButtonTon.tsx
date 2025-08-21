@@ -32,7 +32,9 @@ export function PaymentSection({ recipient, amount, lang, comment }: Props) {
   const buildCommentPayload = async (title?: string, pkgId?: string): Promise<string | undefined> => {
     // Собираем комментарий: "[<pkgId>] <title> | buyer: <address>"
     const buyer = userFriendlyAddress || wallet?.account?.address;
-    const titlePart = title ? `${title}` : '';
+    // FIX: Prevent double ID in comment by cleaning the title
+    const cleanTitle = pkgId && title ? title.replace(`[${pkgId}]`, '').trim() : title;
+    const titlePart = cleanTitle ? `${cleanTitle}` : '';
     const idPart = pkgId ? `[${pkgId}] ` : '';
     const buyerPart = buyer ? ` | buyer: ${buyer}` : '';
     const text = `${idPart}${titlePart}${buyerPart}`.trim();
@@ -44,9 +46,6 @@ export function PaymentSection({ recipient, amount, lang, comment }: Props) {
   };
 
     const handlePay = async () => {
-    console.log('handlePay called');
-    console.log('Wallet object:', wallet);
-    console.log('Is wallet connected?', !!wallet?.account);
     const paymentAmount = amount ?? parseFloat(customAmount);
     if (!isFinite(paymentAmount) || paymentAmount <= 0) return;
 
@@ -61,8 +60,10 @@ export function PaymentSection({ recipient, amount, lang, comment }: Props) {
       // Пытаемся извлечь packageId из комментария, если передан формально как "[ID] ..."
       const maybeId = /\[([A-Z\-0-9]+)\]/i.exec(comment || '')?.[1];
       const payload = await buildCommentPayload(comment, maybeId);
+      
       // PRODUCTION: All payments are sent to this single address.
       const productionRecipient = 'UQC1WXkJ_7t7sGu6ZTZ9BGoR6YAwtPoKoUf7KZtrgOQ3w7km'; // User's mainnet address
+      
       await tonConnectUI.sendTransaction({
         validUntil: Math.floor(Date.now() / 1000) + 600, // 10 минут
         messages: [
@@ -108,4 +109,3 @@ export function PaymentSection({ recipient, amount, lang, comment }: Props) {
     </div>
   );
 }
-

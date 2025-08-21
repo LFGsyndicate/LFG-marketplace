@@ -15,7 +15,7 @@ try {
 } catch {}
 
 createRoot(document.getElementById('root')!).render(
-  <TonConnectUIProvider manifestUrl="https://lfg-ton-marketplace.vercel.app/tonconnect-manifest.json">
+  <TonConnectUIProvider manifestUrl="/tonconnect-manifest.json">
     <App />
   </TonConnectUIProvider>
 );
