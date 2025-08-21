@@ -4,9 +4,7 @@
     { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "dist" } }
   ],
   "routes": [
-    {
-      "src": "/^/((?!api/|assets/|favicon.ico|favicon.svg|robots.txt|sitemap.xml|tonconnect-manifest.json|ai.txt|ai-crawler-catalog.json).*)$",
-      "dest": "/index.html"
-    }
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
