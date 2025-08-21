@@ -17,8 +17,9 @@ try {
   tg?.enableClosingConfirmation?.();
 } catch {}
 
-// Dynamic manifest URL - works both locally and in production
-const manifestUrl = window.location.origin + '/api/manifest';
+// Use static manifest for immediate reliability
+// The static manifest is updated to match our requirements
+const manifestUrl = window.location.origin + '/tonconnect-manifest.json';
 
 createRoot(document.getElementById('root')!).render(
   <TonConnectUIProvider manifestUrl={manifestUrl}>

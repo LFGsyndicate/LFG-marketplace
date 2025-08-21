@@ -1,7 +1,7 @@
 {
   "url": "https://lfg-ton-marketplace.vercel.app",
   "name": "LFG AI Market",
-  "iconUrl": "https://lfg-ton-marketplace.vercel.app/favicon.svg",
-  "termsOfUseUrl": "https://lfg-ton-marketplace.vercel.app/terms",
-  "privacyPolicyUrl": "https://lfg-ton-marketplace.vercel.app/privacy"
+  "iconUrl": "https://lfg-ton-marketplace.vercel.app/icon.png",
+  "termsOfUseUrl": "https://lfg-ton-marketplace.vercel.app/api/terms",
+  "privacyPolicyUrl": "https://lfg-ton-marketplace.vercel.app/api/privacy"
 }
