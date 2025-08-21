@@ -45,17 +45,23 @@ export function PaymentSection({ recipient, amount, lang, comment }: Props) {
     return bytesToBase64(cell.toBoc());
   };
 
-    const handlePay = async () => {
+  const handlePay = async () => {
     const paymentAmount = amount ?? parseFloat(customAmount);
-    if (!isFinite(paymentAmount) || paymentAmount <= 0) return;
+    if (!isFinite(paymentAmount) || paymentAmount <= 0) {
+      toast("Неверная сумма");
+      return;
+    }
 
     try {
-      // Требуем подключение кошелька перед оплатой
+      // Проверяем подключение кошелька
       if (!wallet?.account) {
-        toast("Ожидание подключения кошелька");
+        toast("Подключение кошелька...");
         await tonConnectUI.openModal();
         return; // пользователь подключит кошелек и нажмет снова
       }
+
+      // Показываем процесс подготовки
+      toast("Подготовка транзакции...");
 
       // Пытаемся извлечь packageId из комментария, если передан формально как "[ID] ..."
       const maybeId = /\[([A-Z\-0-9]+)\]/i.exec(comment || '')?.[1];
@@ -74,15 +80,24 @@ export function PaymentSection({ recipient, amount, lang, comment }: Props) {
           }
         ]
       });
-      alert(t.success);
+      
+      toast("Платеж успешно отправлен!");
+      
     } catch (e: any) {
-      // Игнорируем отмену операции пользователем
-      if (typeof e?.message === 'string' && e.message.includes('Operation aborted')) {
-        toast("Платёж отменён");
-        return;
-      }
       console.error('TON Payment Error:', e);
-      toast("Ошибка оплаты");
+      
+      // Улучшенная обработка ошибок
+      if (e?.message?.includes('Operation aborted') || e?.message?.includes('cancelled')) {
+        toast("Платёж отменён пользователем");
+      } else if (e?.message?.includes('Insufficient funds')) {
+        toast("Недостаточно средств на кошельке");
+      } else if (e?.message?.includes('Network error') || e?.message?.includes('timeout')) {
+        toast("Ошибка сети. Попробуйте ещё раз");
+      } else if (e?.message?.includes('Invalid address')) {
+        toast("Ошибка адреса получателя");
+      } else {
+        toast("Ошибка при отправке платежа. Попробуйте ещё раз");
+      }
     }
   };
 
