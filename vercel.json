@@ -4,13 +4,9 @@
     { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "dist" } }
   ],
   "routes": [
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/favicon.ico", "dest": "/favicon.ico" },
-    { "src": "/favicon.svg", "dest": "/favicon.svg" },
-    { "src": "/robots.txt", "dest": "/robots.txt" },
-    { "src": "/sitemap.xml", "dest": "/sitemap.xml" },
-    { "src": "/tonconnect-manifest.json", "dest": "/tonconnect-manifest.json" },
-    { "src": "/lovable-uploads/(.*)", "dest": "/lovable-uploads/$1" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/^/((?!api/|assets/|favicon.ico|favicon.svg|robots.txt|sitemap.xml|tonconnect-manifest.json|ai.txt|ai-crawler-catalog.json).*)$",
+      "dest": "/index.html"
+    }
   ]
 }
