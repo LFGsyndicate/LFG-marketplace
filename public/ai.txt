@@ -1,0 +1,10 @@
+# AI Crawlers Access
+# Purpose: help AI crawlers/LLMs discover key pages and structured data.
+User-agent: *
+Allow: /
+
+# Important resources
+Manifest: https://lfg-ton-marketplace.vercel.app/tonconnect-manifest.json
+Sitemap: https://lfg-ton-marketplace.vercel.app/sitemap.xml
+Catalog: https://lfg-ton-marketplace.vercel.app/ai-crawler-catalog.json
+Organization: https://lfg-ton-marketplace.vercel.app/

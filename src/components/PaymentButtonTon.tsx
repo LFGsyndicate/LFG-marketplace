@@ -81,8 +81,8 @@ export function PaymentSection({ recipient, amount, lang, comment }: Props) {
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <TonConnectButton />
+    <div className="flex items-center gap-2 flex-wrap">
+      <TonConnectButton className="scale-90" />
       {amount === undefined && (
         <input
           className="w-32 px-3 py-2 bg-transparent border border-white/30 rounded text-white placeholder:text-gray-300 text-sm focus:border-white/60 focus:outline-none backdrop-blur-sm"
@@ -94,7 +94,7 @@ export function PaymentSection({ recipient, amount, lang, comment }: Props) {
         />
       )}
       <button
-        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={handlePay}
         disabled={!amount && (!parseFloat(customAmount) || parseFloat(customAmount) <= 0)}
       >

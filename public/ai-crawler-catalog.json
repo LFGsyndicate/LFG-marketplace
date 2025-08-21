@@ -1,0 +1,7 @@
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "LFG AI Market Catalog",
+  "url": "https://lfg-ton-marketplace.vercel.app/",
+  "itemListElement": []
+}

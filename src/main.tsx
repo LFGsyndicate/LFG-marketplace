@@ -14,12 +14,8 @@ try {
   tg?.enableClosingConfirmation?.();
 } catch {}
 
-const manifestUrl = import.meta.env.DEV
-  ? 'https://lfg-ton-marketplace.vercel.app/tonconnect-manifest.json'
-  : `${window.location.origin}/tonconnect-manifest.json`;
-
 createRoot(document.getElementById('root')!).render(
-  <TonConnectUIProvider manifestUrl={manifestUrl}>
+  <TonConnectUIProvider manifestUrl="https://lfg-ton-marketplace.vercel.app/tonconnect-manifest.json">
     <App />
   </TonConnectUIProvider>
 );

@@ -71,6 +71,37 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
     return s?.[key];
   }, [lang, overrides]);
 
+  // Emit structured data for services (basic SEO for LLMs and search)
+  useEffect(() => {
+    try {
+      const list = services.slice(0, 30).map(s => ({
+        '@type': 'Product',
+        'name': s.packageName,
+        'sku': s.packageId,
+        'category': s.category,
+        'description': s.persuasiveDescription,
+        'offers': {
+          '@type': 'Offer',
+          'priceCurrency': 'TON',
+          'price': s.priceTON
+        }
+      }));
+      const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        'itemListElement': list
+      };
+      let el = document.getElementById('schema-services');
+      if (!el) {
+        el = document.createElement('script');
+        el.type = 'application/ld+json';
+        el.id = 'schema-services';
+        document.head.appendChild(el);
+      }
+      el.textContent = JSON.stringify(jsonLd);
+    } catch {}
+  }, []);
+
   const filteredServices = useMemo(() => {
     if (filter === 'Все' || filter === 'All') return services;
     const ruCategory = Object.keys(t.categories).find(key => t.categories[key as keyof typeof t.categories] === filter);
@@ -140,11 +171,11 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                 heroSection.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            className="text-lg sm:text-xl md:text-2xl font-bold hover:text-accent-green transition-colors"
+            className="text-base leading-tight sm:text-lg md:text-2xl font-bold hover:text-accent-green transition-colors"
           >
             LFG AI Market
           </button>
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-1 sm:gap-2">
             <div className="flex gap-1 sm:gap-2">
               <button onClick={() => onLangChange('ru')} className={`px-2 py-1 sm:px-3 sm:py-1 rounded text-xs sm:text-sm transition-colors ${lang === 'ru' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}>RU</button>
               <button onClick={() => onLangChange('en')} className={`px-2 py-1 sm:px-3 sm:py-1 rounded text-xs sm:text-sm transition-colors ${lang === 'en' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}>EN</button>
@@ -152,16 +183,16 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
             <Button
               onClick={() => setShowServicesList(true)}
               variant="outline"
-              className="liquid-outline-btn hover:bg-white/10 text-white hover:text-white text-xs sm:text-sm"
+              className="liquid-outline-btn hover:bg-white/10 text-white hover:text-white h-8 px-3 text-xs sm:text-sm"
             >
               {t.servicesList}
             </Button>
-            <TonConnectButton />
+            <TonConnectButton className="scale-90 sm:scale-100" />
           </div>
         </header>
 
         <main className="pt-20 sm:pt-24">
-          <section id="hero" className="relative min-h-[70vh] overflow-hidden flex items-center justify-center">
+          <section id="hero" className="relative min-h-[70vh] overflow-hidden flex items-center justify-center pt-2 sm:pt-4">
             {/* Vanta.js background */}
             <div id="vanta-bg" className="absolute inset-0"></div>
             <div className="relative z-10 w-full max-w-5xl lg:max-w-6xl text-center px-4">
@@ -171,14 +202,14 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                     <CarouselItem key={index}>
                       <div className="p-1">
                         <div className="flex flex-col items-center justify-center p-4 md:p-6 min-h-[300px]">
-                          <div className="mb-2 text-sm md:text-base text-light-cream/80">
+                          <div className="mb-6 text-[12px] leading-[1.25] sm:text-sm sm:leading-snug text-light-cream/80">
                             {lang === 'ru' ? (
                               <>Первый и единственный маркетплейс AI-решений "под ключ" в Телеграм. Оплата в <span className="px-1.5 py-0.5 rounded-md text-white bg-blue-500/70 shadow-md backdrop-blur-sm animate-[pulse_3.2s_ease-in-out_infinite]">TON</span>.</>
                             ) : (
                               <>The first and only marketplace of turnkey AI solutions in Telegram. Pay in <span className="px-1.5 py-0.5 rounded-md text-white bg-blue-500/70 shadow-md backdrop-blur-sm animate-[pulse_3.2s_ease-in-out_infinite]">TON</span>.</>
                             )}
                           </div>
-                          <h1 className="text-3xl md:text-5xl font-bold mb-4 text-light-cream leading-tight">{slide.title[lang]}</h1>
+                          <h1 className="text-[26px] leading-[1.15] md:text-5xl font-bold mb-6 text-light-cream">{slide.title[lang]}</h1>
                           <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto text-light-cream/90">{slide.subtitle[lang]}</p>
                         </div>
                       </div>
@@ -265,7 +296,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
 
         {selectedService && (
           <Dialog open={!!selectedService} onOpenChange={() => setSelectedService(null)}>
-            <DialogContent className="liquid-surface border-gold/40 text-light-cream">
+            <DialogContent className="liquid-surface border-gold/40 text-light-cream max-w-[520px] w-[95vw] p-4 sm:p-6">
               <DialogHeader>
                 <DialogTitle>{getText(selectedService, 'packageName')}</DialogTitle>
                 <DialogDescription className="text-light-cream/80">{getText(selectedService, 'painPoint')}</DialogDescription>
@@ -300,7 +331,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
         )}
 
         <Dialog open={showServicesList} onOpenChange={() => setShowServicesList(false)}>
-          <DialogContent className="liquid-surface border-gold/40 text-light-cream max-h-[90vh] overflow-y-auto">
+          <DialogContent className="liquid-surface border-gold/40 text-light-cream max-h-[90vh] w-[95vw] max-w-[720px] p-4 overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{t.servicesList}</DialogTitle>
               <DialogDescription className="text-light-cream/80">
