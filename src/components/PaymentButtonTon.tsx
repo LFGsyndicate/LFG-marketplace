@@ -30,9 +30,13 @@ export function PaymentSection({ recipient, amount, lang, comment }: Props) {
   const t = texts[lang];
 
   const buildCommentPayload = async (title?: string, pkgId?: string): Promise<string | undefined> => {
-    // DEBUG: Temporarily send a simple comment to isolate payload issues.
-    const text = 'LFG simple test'; // Static short comment
-
+    // Собираем комментарий: "[<pkgId>] <title> | buyer: <address>"
+    const buyer = userFriendlyAddress || wallet?.account?.address;
+    const titlePart = title ? `${title}` : '';
+    const idPart = pkgId ? `[${pkgId}] ` : '';
+    const buyerPart = buyer ? ` | buyer: ${buyer}` : '';
+    const text = `${idPart}${titlePart}${buyerPart}`.trim();
+    if (!text) return undefined;
     // Dynamic import avoids Buffer init race
     const { beginCell } = await import('@ton/core');
     const cell = beginCell().storeUint(0, 32).storeStringTail(text).endCell();
