@@ -8,7 +8,7 @@ export default (req: VercelRequest, res: VercelResponse) => {
   const manifest = {
     "url": baseUrl,
     "name": "LFG AI Market",
-    "iconUrl": `${baseUrl}/icon.png`,
+    "iconUrl": `${baseUrl}/icon-512.png`,
     "termsOfUseUrl": `${baseUrl}/api/terms`,
     "privacyPolicyUrl": `${baseUrl}/api/privacy`
   };
