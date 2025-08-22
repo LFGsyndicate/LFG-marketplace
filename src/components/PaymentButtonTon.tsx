@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { TonConnectButton, useTonConnectUI, useTonWallet, useTonAddress } from '@tonconnect/ui-react';
 // Ensure Buffer exists before loading @ton/core (dynamic import used below)
 import { Buffer } from 'buffer';
@@ -23,6 +23,8 @@ const bytesToBase64 = (bytes: Uint8Array): string => {
 
 export function PaymentSection({ amount, lang, comment }: Props) {
   const [customAmount, setCustomAmount] = useState('');
+  const [isPendingConnection, setIsPendingConnection] = useState(false);
+  const [pendingPaymentData, setPendingPaymentData] = useState<{amount: number, comment?: string} | null>(null);
   const [tonConnectUI] = useTonConnectUI();
   const wallet = useTonWallet();
   const userFriendlyAddress = useTonAddress(); // EQ...
@@ -44,27 +46,27 @@ export function PaymentSection({ amount, lang, comment }: Props) {
     return bytesToBase64(cell.toBoc());
   };
 
-  const handlePay = async () => {
-    const paymentAmount = amount ?? parseFloat(customAmount);
-    if (!isFinite(paymentAmount) || paymentAmount <= 0) {
-      toast("Неверная сумма");
-      return;
+  // Effect to handle wallet connection completion
+  useEffect(() => {
+    if (wallet?.account && isPendingConnection && pendingPaymentData) {
+      // Wallet just connected and we have pending payment data
+      setIsPendingConnection(false);
+      const { amount: pendingAmount, comment: pendingComment } = pendingPaymentData;
+      setPendingPaymentData(null);
+      
+      // Execute the payment with the stored data
+      executePayment(pendingAmount, pendingComment);
     }
+  }, [wallet?.account, isPendingConnection, pendingPaymentData]);
 
+  const executePayment = useCallback(async (paymentAmount: number, paymentComment?: string) => {
     try {
-      // Проверяем подключение кошелька
-      if (!wallet?.account) {
-        toast("Подключение кошелька...");
-        await tonConnectUI.openModal();
-        return; // пользователь подключит кошелек и нажмет снова
-      }
-
       // Показываем процесс подготовки
       toast("Подготовка транзакции...");
 
       // Пытаемся извлечь packageId из комментария, если передан формально как "[ID] ..."
-      const maybeId = /\[([A-Z\-0-9]+)\]/i.exec(comment || '')?.[1];
-      const payload = await buildCommentPayload(comment, maybeId);
+      const maybeId = /\[([A-Z\-0-9]+)\]/i.exec(paymentComment || '')?.[1];
+      const payload = await buildCommentPayload(paymentComment, maybeId);
       
       // PRODUCTION: All payments are sent to this wallet address.
       const productionRecipient = 'UQC1WXkJ_7t7sGu6ZTZ9BGoR6YAwtPoKoUf7KZtrgOQ3w7km'; // Production wallet address
@@ -98,6 +100,42 @@ export function PaymentSection({ amount, lang, comment }: Props) {
         toast("Ошибка при отправке платежа. Попробуйте ещё раз");
       }
     }
+  }, [tonConnectUI, userFriendlyAddress, wallet]);
+
+  const handlePay = async () => {
+    const paymentAmount = amount ?? parseFloat(customAmount);
+    if (!isFinite(paymentAmount) || paymentAmount <= 0) {
+      toast("Неверная сумма");
+      return;
+    }
+
+    // Проверяем подключение кошелька
+    if (!wallet?.account) {
+      // Сохраняем данные платежа для выполнения после подключения
+      setPendingPaymentData({ amount: paymentAmount, comment });
+      setIsPendingConnection(true);
+      
+      toast("Подключение кошелька...");
+      
+      try {
+        // Ensure any existing modal is closed first
+        if (tonConnectUI.modal?.state?.status === 'opened') {
+          tonConnectUI.modal.close();
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        
+        await tonConnectUI.openModal();
+      } catch (e: any) {
+        console.error('Error opening wallet modal:', e);
+        setIsPendingConnection(false);
+        setPendingPaymentData(null);
+        toast("Ошибка подключения кошелька. Попробуйте кнопку Connect Wallet в заголовке.");
+      }
+      return;
+    }
+
+    // Если кошелек уже подключен, выполняем платеж сразу
+    await executePayment(paymentAmount, comment);
   };
 
   return (
@@ -116,9 +154,12 @@ export function PaymentSection({ amount, lang, comment }: Props) {
       <button
         className="px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={handlePay}
-        disabled={!amount && (!parseFloat(customAmount) || parseFloat(customAmount) <= 0)}
+        disabled={(!amount && (!parseFloat(customAmount) || parseFloat(customAmount) <= 0)) || isPendingConnection}
       >
-        {amount ? `${t.pay} ${amount} TON` : t.pay}
+        {isPendingConnection 
+          ? (lang === 'ru' ? 'Подключение...' : 'Connecting...') 
+          : (amount ? `${t.pay} ${amount} TON` : t.pay)
+        }
       </button>
     </div>
   );

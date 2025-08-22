@@ -17,8 +17,7 @@ try {
   tg?.enableClosingConfirmation?.();
 } catch {}
 
-// Use static manifest for immediate reliability
-// The static manifest is updated to match our requirements
+// Use static manifest for production
 const manifestUrl = window.location.origin + '/tonconnect-manifest.json';
 
 createRoot(document.getElementById('root')!).render(
