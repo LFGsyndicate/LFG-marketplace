@@ -22,6 +22,8 @@ export const texts = {
     privacyAndTerms: 'Приватность и Условия использования',
     paymentTermsNotice: 'При оплате Вы соглашаетесь с',
     termsOfService: 'Условиями сервиса',
+    walletConnected: 'Ваш кошелек подключен',
+    needConnectWallet: 'Вам нужно подключить кошелек',
     categories: {
       'AI-сотрудники': 'AI-сотрудники',
       'Маркетинг и Продажи': 'Маркетинг и Продажи',
@@ -135,6 +137,8 @@ LFGsyndicate DAO, именуемый далее «Исполнитель», пу
     privacyAndTerms: 'Privacy Policy and Terms of Service',
     paymentTermsNotice: 'By making a payment, you agree to the',
     termsOfService: 'Terms of Service',
+    walletConnected: 'Your wallet is connected',
+    needConnectWallet: 'You need to connect wallet',
     categories: {
       'AI-сотрудники': 'AI Employees',
       'Маркетинг и Продажи': 'Marketing & Sales',

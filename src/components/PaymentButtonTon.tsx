@@ -1,10 +1,9 @@
 import { useState, useCallback } from 'react';
 import { useTonConnectUI, useTonWallet, useTonAddress } from '@tonconnect/ui-react';
-// Ensure Buffer exists before loading @ton/core (dynamic import used below)
-import { Buffer } from 'buffer';
-(window as any).Buffer = (window as any).Buffer || Buffer;
 import { texts } from '../i18n';
 import { toast } from '@/components/ui/sonner';
+
+// Removed CustomTonConnectButton as per user request - TON Connect doesn't allow multiple instances
 
 type Props = {
   amount?: number; // Сумма в TON, опционально
@@ -40,10 +39,16 @@ export function PaymentSection({ amount, lang, comment }: Props) {
     const buyerPart = buyer ? ` | buyer: ${buyer}` : '';
     const text = `${idPart}${titlePart}${buyerPart}`.trim();
     if (!text) return undefined;
-    // Dynamic import avoids Buffer init race
-    const { beginCell } = await import('@ton/core');
-    const cell = beginCell().storeUint(0, 32).storeStringTail(text).endCell();
-    return bytesToBase64(cell.toBoc());
+    
+    try {
+      // Dynamic import to avoid Buffer conflicts
+      const { beginCell } = await import('@ton/core');
+      const cell = beginCell().storeUint(0, 32).storeStringTail(text).endCell();
+      return bytesToBase64(cell.toBoc());
+    } catch (error) {
+      console.error('Error building comment payload:', error);
+      return undefined;
+    }
   };
 
   const executePayment = useCallback(async (paymentAmount: number, paymentComment?: string) => {
@@ -108,25 +113,78 @@ export function PaymentSection({ amount, lang, comment }: Props) {
     await executePayment(paymentAmount, comment);
   };
 
+  // Dynamic wallet status component
+  const WalletStatus = () => {
+    if (wallet?.account) {
+      // Wallet is connected
+      return (
+        <div className="text-[10px] text-green-400 font-medium bg-green-400/10 px-1.5 py-0.5 rounded border border-green-400/20">
+          ✓ {t.walletConnected}
+        </div>
+      );
+    } else {
+      // Wallet not connected - show link to header button
+      return (
+        <div className="text-[10px] bg-blue-500/10 px-1.5 py-0.5 rounded border border-blue-500/20">
+          <button
+            onClick={() => {
+              // Close any open modals first
+              const closeButtons = document.querySelectorAll('[data-dialog-close]');
+              closeButtons.forEach(btn => (btn as HTMLElement)?.click());
+              
+              // Scroll to header after a brief delay
+              setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Highlight the header connect button
+                const headerButton = document.querySelector('.tc-button, [data-tc-connect-button]');
+                if (headerButton) {
+                  (headerButton as HTMLElement).classList.add('wallet-highlight');
+                  // Repeat animation 3 times
+                  setTimeout(() => {
+                    (headerButton as HTMLElement).classList.add('wallet-highlight');
+                  }, 1000);
+                  setTimeout(() => {
+                    (headerButton as HTMLElement).classList.add('wallet-highlight');
+                  }, 2000);
+                  setTimeout(() => {
+                    (headerButton as HTMLElement).classList.remove('wallet-highlight');
+                  }, 3000);
+                }
+              }, 100);
+            }}
+            className="text-blue-400 hover:text-blue-300 underline transition-colors font-medium"
+          >
+            {t.needConnectWallet}
+          </button>
+        </div>
+      );
+    }
+  };
+
   return (
-    <div className="flex items-center gap-2 flex-wrap">
-      {amount === undefined && (
-        <input
-          className="w-32 px-3 py-2 bg-transparent border border-white/30 rounded text-white placeholder:text-gray-300 text-sm focus:border-white/60 focus:outline-none backdrop-blur-sm"
-          type="text"
-          inputMode="decimal"
-          placeholder={t.amountPlaceholder}
-          value={customAmount}
-          onChange={(e) => setCustomAmount(e.target.value)}
-        />
-      )}
-      <button
-        className="px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        onClick={handlePay}
-        disabled={!amount && (!parseFloat(customAmount) || parseFloat(customAmount) <= 0)}
-      >
-        {amount ? `${t.pay} ${amount} TON` : t.pay}
-      </button>
+    <div className="flex flex-col items-center gap-2">
+      {/* Dynamic wallet status - displayed above payment button */}
+      <WalletStatus />
+      
+      <div className="flex items-center gap-2 flex-wrap">
+        {amount === undefined && (
+          <input
+            className="w-32 px-3 py-2 bg-transparent border border-white/30 rounded text-white placeholder:text-gray-300 text-sm focus:border-white/60 focus:outline-none backdrop-blur-sm"
+            type="text"
+            inputMode="decimal"
+            placeholder={t.amountPlaceholder}
+            value={customAmount}
+            onChange={(e) => setCustomAmount(e.target.value)}
+          />
+        )}
+        <button
+          className="px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={handlePay}
+          disabled={!amount && (!parseFloat(customAmount) || parseFloat(customAmount) <= 0)}
+        >
+          {amount ? `${t.pay} ${amount} TON` : t.pay}
+        </button>
+      </div>
     </div>
   );
 }

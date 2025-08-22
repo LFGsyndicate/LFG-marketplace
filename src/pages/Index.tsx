@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardDescription } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { services, Service } from '@/data/services';
 import overridesRaw from '@/data/services_en_overrides.json';
 import type { ServiceEnOverrides } from '@/data/services_en_overrides';
@@ -12,8 +12,6 @@ import { Separator } from '@/components/ui/separator';
 import { PaymentSection } from '@/components/PaymentButtonTon';
 import { texts, Lang } from '@/i18n';
 import { TonConnectButton } from '@tonconnect/ui-react';
-
-const RECIPIENT = 'lfgsyndicate.ton';
 
 const heroSlides: { intro?: boolean; category?: string; title: Record<Lang, string>; subtitle: Record<Lang, string> }[] = [
   { 
@@ -188,7 +186,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
             >
               {t.servicesList}
             </Button>
-            <TonConnectButton className="scale-[0.65] sm:scale-75 ml-0.25" />
+            <TonConnectButton className="scale-[0.65] sm:scale-75 ml-0.25" data-tc-connect-button />
           </div>
         </header>
 
@@ -303,6 +301,16 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
         {selectedService && (
           <Dialog open={!!selectedService} onOpenChange={() => setSelectedService(null)}>
             <DialogContent className="liquid-surface border-gold/40 text-light-cream max-w-[400px] w-[92vw] max-h-[85vh] overflow-y-auto p-3 sm:p-4">
+              {/* Add close button with data attribute for detection */}
+              <button 
+                data-dialog-close
+                onClick={() => setSelectedService(null)}
+                className="absolute top-2 right-2 p-1 rounded-full hover:bg-white/10 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
               <DialogHeader>
                 <DialogTitle>{getText(selectedService, 'packageName')}</DialogTitle>
                 <DialogDescription className="text-light-cream/80">{getText(selectedService, 'painPoint')}</DialogDescription>
@@ -343,6 +351,16 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
 
         <Dialog open={showServicesList} onOpenChange={() => setShowServicesList(false)}>
           <DialogContent className="liquid-surface border-gold/40 text-light-cream max-h-[80vh] w-[92vw] max-w-[600px] p-3 sm:p-4 overflow-y-auto">
+            {/* Add close button with data attribute for detection */}
+            <button 
+              data-dialog-close
+              onClick={() => setShowServicesList(false)}
+              className="absolute top-2 right-2 p-1 rounded-full hover:bg-white/10 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
             <DialogHeader>
               <DialogTitle>{t.servicesList}</DialogTitle>
               <DialogDescription className="text-light-cream/80">
@@ -409,6 +427,16 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
         {/* Privacy Policy Modal */}
         <Dialog open={showPrivacyModal} onOpenChange={() => setShowPrivacyModal(false)}>
           <DialogContent className="liquid-surface border-gold/40 text-light-cream max-h-[90vh] w-[95vw] max-w-[800px] p-4 overflow-y-auto">
+            {/* Add close button with data attribute for detection */}
+            <button 
+              data-dialog-close
+              onClick={() => setShowPrivacyModal(false)}
+              className="absolute top-2 right-2 p-1 rounded-full hover:bg-white/10 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
             <DialogHeader>
               <DialogTitle className="text-xl font-bold text-light-cream">{t.privacyAndTerms}</DialogTitle>
             </DialogHeader>
