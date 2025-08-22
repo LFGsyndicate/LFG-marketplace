@@ -164,7 +164,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
   return (
     <LazyMotion features={domAnimation}>
       <div className="bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white">
-        <header className="fixed top-[4.375rem] sm:top-8 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-5xl rounded-lg bg-gradient-to-br from-blue-900/85 via-purple-900/85 to-indigo-900/85 backdrop-blur-md border border-white/20 px-2.5 py-1.5 sm:px-4 sm:py-2 flex justify-between items-center shadow-lg">
+        <header className="fixed top-[4.5625rem] sm:top-8 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-5xl rounded-lg bg-gradient-to-br from-blue-900/85 via-purple-900/85 to-indigo-900/85 backdrop-blur-md border border-white/20 px-2.5 py-1.5 sm:px-4 sm:py-2 flex justify-between items-center shadow-lg">
           <button
             onClick={() => {
               const heroSection = document.getElementById('hero');
@@ -172,23 +172,23 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                 heroSection.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            className="text-sm sm:text-base md:text-lg font-bold hover:text-accent-green transition-colors leading-tight"
+            className="text-xs sm:text-sm md:text-base font-bold hover:text-accent-green transition-colors leading-tight flex-shrink-0 mr-4"
           >
             LFG AI Market
           </button>
-          <div className="flex items-center gap-1">
-            <div className="flex gap-1">
+          <div className="flex items-center gap-0.5 ml-auto">
+            <div className="flex gap-0.5">
               <button onClick={() => onLangChange('ru')} className={`px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-[10px] sm:text-xs transition-colors ${lang === 'ru' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}>RU</button>
               <button onClick={() => onLangChange('en')} className={`px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-[10px] sm:text-xs transition-colors ${lang === 'en' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}>EN</button>
             </div>
             <Button
               onClick={() => setShowServicesList(true)}
               variant="outline"
-              className="liquid-outline-btn hover:bg-white/10 text-white hover:text-white h-7 px-2 text-[10px] sm:text-xs sm:h-8 sm:px-3"
+              className="liquid-outline-btn hover:bg-white/10 text-white hover:text-white h-7 px-1.5 text-[10px] sm:text-xs sm:h-8 sm:px-2 ml-0.5"
             >
               {t.servicesList}
             </Button>
-            <TonConnectButton className="scale-75 sm:scale-90" />
+            <TonConnectButton className="scale-75 sm:scale-90 ml-0.5" />
           </div>
         </header>
 
