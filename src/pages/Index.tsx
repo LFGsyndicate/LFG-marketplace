@@ -65,7 +65,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
     if (lang === 'en') {
       const enKey = `${key}En`;
       const byField = s && typeof s === 'object' && enKey in s && s[enKey] ? s[enKey] : null;
-      const byOverride = s?.packageId && overrides?.[s.packageId]?.[key as any];
+      const byOverride = s?.packageId && overrides?.[s.packageId]?.[key as keyof typeof overrides[string]];
       return byField || byOverride || s?.[key];
     }
     return s?.[key];
@@ -94,7 +94,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
       let el = document.getElementById('schema-services');
       if (!el) {
         el = document.createElement('script');
-        el.type = 'application/ld+json';
+        (el as HTMLScriptElement).type = 'application/ld+json';
         el.id = 'schema-services';
         document.head.appendChild(el);
       }
@@ -289,7 +289,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
             <h2 className="text-3xl font-bold mb-4">{t.customPaymentTitle}</h2>
             <p className="text-light-cream/90 mb-8 max-w-2xl mx-auto">{t.customPaymentSubtitle}</p>
             <div className="flex justify-center">
-              <PaymentSection recipient={RECIPIENT} lang={lang} />
+              <PaymentSection lang={lang} />
             </div>
           </section>
         </main>
@@ -324,7 +324,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                   <div className="text-2xl font-bold text-accent-green">{lang === 'en' ? `$${(selectedService.pricingTier1_Price / 90).toFixed(2)}` : `${selectedService.priceTON} TON`}</div>
                   <div className="text-xs text-gold">{lang === 'en' ? `≈ ${selectedService.priceTON} TON` : `≈ ${selectedService.pricingTier1_Price.toLocaleString('ru-RU')} ₽`}</div>
                 </div>
-                <PaymentSection recipient={RECIPIENT} amount={selectedService.priceTON} lang={lang} comment={`[${selectedService.packageId}] ${getText(selectedService, 'packageName')}`} />
+                <PaymentSection amount={selectedService.priceTON} lang={lang} comment={`[${selectedService.packageId}] ${getText(selectedService, 'packageName')}`} />
               </div>
             </DialogContent>
           </Dialog>

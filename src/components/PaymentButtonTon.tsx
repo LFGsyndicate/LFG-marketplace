@@ -7,7 +7,6 @@ import { texts } from '../i18n';
 import { toast } from '@/components/ui/sonner';
 
 type Props = {
-  recipient: string;
   amount?: number; // Сумма в TON, опционально
   lang: keyof typeof texts;
   comment?: string; // Заголовок услуги (локализованный)
@@ -22,7 +21,7 @@ const bytesToBase64 = (bytes: Uint8Array): string => {
   return btoa(binary);
 };
 
-export function PaymentSection({ recipient, amount, lang, comment }: Props) {
+export function PaymentSection({ amount, lang, comment }: Props) {
   const [customAmount, setCustomAmount] = useState('');
   const [tonConnectUI] = useTonConnectUI();
   const wallet = useTonWallet();

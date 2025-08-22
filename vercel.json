@@ -43,18 +43,29 @@
           "value": "public, max-age=86400"
         }
       ]
+    },
+    {
+      "source": "/tonconnect-manifest.json",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
     }
   ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/favicon.svg", "dest": "/favicon.svg" },
-    { "src": "/icon.png", "dest": "/icon.png" },
-    { "src": "/robots.txt", "dest": "/robots.txt" },
-    { "src": "/sitemap.xml", "dest": "/sitemap.xml" },
-    { "src": "/ai.txt", "dest": "/ai.txt" },
-    { "src": "/ai-crawler-catalog.json", "dest": "/ai-crawler-catalog.json" },
-    { "src": "/tonconnect-manifest.json", "dest": "/tonconnect-manifest.json" },
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*)", "dest": "/index.html" }
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
   ]
 }
