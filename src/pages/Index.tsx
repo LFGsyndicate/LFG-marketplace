@@ -164,7 +164,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
   return (
     <LazyMotion features={domAnimation}>
       <div className="bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white">
-        <header className="fixed top-[-1.9375rem] sm:top-[-1.4375rem] left-1/2 -translate-x-1/2 z-40 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-5xl rounded-lg bg-gradient-to-br from-blue-900/85 via-purple-900/85 to-indigo-900/85 backdrop-blur-md border border-white/20 px-2.5 py-1.5 sm:px-4 sm:py-2 flex justify-between items-center shadow-lg">
+        <header className="fixed top-[1.25rem] sm:top-[0.8125rem] left-1/2 -translate-x-1/2 z-40 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-5xl rounded-lg bg-gradient-to-br from-blue-900/85 via-purple-900/85 to-indigo-900/85 backdrop-blur-md border border-white/20 px-2.5 py-1.5 sm:px-4 sm:py-2 flex justify-between items-center shadow-lg">
           <button
             onClick={() => {
               const heroSection = document.getElementById('hero');
@@ -192,7 +192,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
           </div>
         </header>
 
-        <main className="pt-8 sm:pt-8">
+        <main className="pt-16 sm:pt-16">
           <section id="hero" className="relative min-h-[70vh] overflow-hidden flex items-center justify-center pt-2 sm:pt-4">
             {/* Vanta.js background */}
             <div id="vanta-bg" className="absolute inset-0"></div>
@@ -292,6 +292,9 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
             <div className="text-[10px] text-light-cream/70 text-center max-w-[300px] mx-auto mb-6 leading-tight">
               {t.paymentTermsNotice} <button onClick={() => setShowPrivacyModal(true)} className="text-blue-400 hover:text-blue-300 underline">{t.termsOfService}</button>
             </div>
+            <div className="flex justify-center mb-4">
+              <TonConnectButton className="scale-90" />
+            </div>
             <div className="flex justify-center">
               <div className="flex flex-col items-center gap-2">
                 <PaymentSection lang={lang} />
@@ -326,6 +329,9 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                 </div>
                 <div className="text-[10px] text-light-cream/70 text-center leading-tight">
                   {t.paymentTermsNotice} <button onClick={() => setShowPrivacyModal(true)} className="text-blue-400 hover:text-blue-300 underline">{t.termsOfService}</button>
+                </div>
+                <div className="flex justify-center py-2">
+                  <TonConnectButton className="scale-90" />
                 </div>
               </div>
               <div className="flex justify-between items-center pt-4 border-t border-gold/20">
