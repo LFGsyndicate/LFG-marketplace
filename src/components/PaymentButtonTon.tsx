@@ -66,8 +66,8 @@ export function PaymentSection({ amount, lang, comment }: Props) {
       const maybeId = /\[([A-Z\-0-9]+)\]/i.exec(comment || '')?.[1];
       const payload = await buildCommentPayload(comment, maybeId);
       
-      // PRODUCTION: All payments are sent to this single address.
-      const productionRecipient = 'UQC1WXkJ_7t7sGu6ZTZ9BGoR6YAwtPoKoUf7KZtrgOQ3w7km'; // User's mainnet address
+      // PRODUCTION: All payments are sent to this domain address.
+      const productionRecipient = 'lfgsyndicate.ton'; // Domain-based address
       
       await tonConnectUI.sendTransaction({
         validUntil: Math.floor(Date.now() / 1000) + 600, // 10 минут

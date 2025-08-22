@@ -58,6 +58,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
   const overrides = overridesRaw as ServiceEnOverrides;
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [showServicesList, setShowServicesList] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const t = texts[lang];
 
   // Helper to get localized field from service data
@@ -163,7 +164,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
   return (
     <LazyMotion features={domAnimation}>
       <div className="bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white">
-        <header className="fixed top-3 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] sm:w-[calc(100%-3rem)] max-w-6xl rounded-xl bg-gradient-to-br from-blue-900/80 via-purple-900/80 to-indigo-900/80 backdrop-blur-md border border-white/20 px-3 py-2 sm:px-6 sm:py-3 flex justify-between items-center shadow-lg">
+        <header className="fixed top-19 sm:top-8 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-5xl rounded-lg bg-gradient-to-br from-blue-900/85 via-purple-900/85 to-indigo-900/85 backdrop-blur-md border border-white/20 px-2.5 py-1.5 sm:px-4 sm:py-2 flex justify-between items-center shadow-lg">
           <button
             onClick={() => {
               const heroSection = document.getElementById('hero');
@@ -171,27 +172,27 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                 heroSection.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            className="text-base leading-tight sm:text-lg md:text-2xl font-bold hover:text-accent-green transition-colors"
+            className="text-sm sm:text-base md:text-lg font-bold hover:text-accent-green transition-colors leading-tight"
           >
             LFG AI Market
           </button>
-          <div className="flex items-center gap-1 sm:gap-2">
-            <div className="flex gap-1 sm:gap-2">
-              <button onClick={() => onLangChange('ru')} className={`px-2 py-1 sm:px-3 sm:py-1 rounded text-xs sm:text-sm transition-colors ${lang === 'ru' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}>RU</button>
-              <button onClick={() => onLangChange('en')} className={`px-2 py-1 sm:px-3 sm:py-1 rounded text-xs sm:text-sm transition-colors ${lang === 'en' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}>EN</button>
+          <div className="flex items-center gap-1">
+            <div className="flex gap-1">
+              <button onClick={() => onLangChange('ru')} className={`px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-[10px] sm:text-xs transition-colors ${lang === 'ru' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}>RU</button>
+              <button onClick={() => onLangChange('en')} className={`px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-[10px] sm:text-xs transition-colors ${lang === 'en' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}>EN</button>
             </div>
             <Button
               onClick={() => setShowServicesList(true)}
               variant="outline"
-              className="liquid-outline-btn hover:bg-white/10 text-white hover:text-white h-8 px-3 text-xs sm:text-sm"
+              className="liquid-outline-btn hover:bg-white/10 text-white hover:text-white h-7 px-2 text-[10px] sm:text-xs sm:h-8 sm:px-3"
             >
               {t.servicesList}
             </Button>
-            <TonConnectButton className="scale-90 sm:scale-100" />
+            <TonConnectButton className="scale-75 sm:scale-90" />
           </div>
         </header>
 
-        <main className="pt-20 sm:pt-24">
+        <main className="pt-20 sm:pt-20">
           <section id="hero" className="relative min-h-[70vh] overflow-hidden flex items-center justify-center pt-2 sm:pt-4">
             {/* Vanta.js background */}
             <div id="vanta-bg" className="absolute inset-0"></div>
@@ -224,13 +225,13 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
           <section id="services" className="py-14 md:py-20">
             <div className="container mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-light-cream">{t.servicesTitle}</h2>
-              <div className="flex justify-center flex-wrap gap-2 mb-12">
+              <div className="flex justify-center flex-wrap gap-1.5 sm:gap-2 mb-12 px-2">
                 {categories.map((category: string) => (
                   <Button
                     key={category}
                     variant="outline"
                     onClick={() => setFilter(category)}
-                    className={`category-filter-btn rounded-full transition-all duration-300 px-4 py-2 text-sm sm:text-base ${filter === category ? 'active' : ''}`}
+                    className={`category-filter-btn rounded-full transition-all duration-300 px-2.5 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm leading-tight ${filter === category ? 'active' : ''}`}
                   >
                     {category}
                   </Button>
@@ -288,15 +289,20 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
           <section className="container mx-auto px-6 py-16 text-center">
             <h2 className="text-3xl font-bold mb-4">{t.customPaymentTitle}</h2>
             <p className="text-light-cream/90 mb-8 max-w-2xl mx-auto">{t.customPaymentSubtitle}</p>
+            <div className="text-[10px] text-light-cream/70 text-center max-w-[300px] mx-auto mb-6 leading-tight">
+              {t.paymentTermsNotice} <button onClick={() => setShowPrivacyModal(true)} className="text-blue-400 hover:text-blue-300 underline">{t.termsOfService}</button>
+            </div>
             <div className="flex justify-center">
-              <PaymentSection lang={lang} />
+              <div className="flex flex-col items-center gap-2">
+                <PaymentSection lang={lang} />
+              </div>
             </div>
           </section>
         </main>
 
         {selectedService && (
           <Dialog open={!!selectedService} onOpenChange={() => setSelectedService(null)}>
-            <DialogContent className="liquid-surface border-gold/40 text-light-cream max-w-[520px] w-[95vw] p-4 sm:p-6">
+            <DialogContent className="liquid-surface border-gold/40 text-light-cream max-w-[400px] w-[92vw] max-h-[85vh] overflow-y-auto p-3 sm:p-4">
               <DialogHeader>
                 <DialogTitle>{getText(selectedService, 'packageName')}</DialogTitle>
                 <DialogDescription className="text-light-cream/80">{getText(selectedService, 'painPoint')}</DialogDescription>
@@ -318,20 +324,25 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                   <h3 className="font-semibold text-gold">{t.example}</h3>
                   <p className="text-sm not-italic font-examples liquid-surface p-3 rounded-md">{getText(selectedService, 'example')}</p>
                 </div>
+                <div className="text-[10px] text-light-cream/70 text-center leading-tight">
+                  {t.paymentTermsNotice} <button onClick={() => setShowPrivacyModal(true)} className="text-blue-400 hover:text-blue-300 underline">{t.termsOfService}</button>
+                </div>
               </div>
               <div className="flex justify-between items-center pt-4 border-t border-gold/20">
                 <div>
                   <div className="text-2xl font-bold text-accent-green">{lang === 'en' ? `$${(selectedService.pricingTier1_Price / 90).toFixed(2)}` : `${selectedService.priceTON} TON`}</div>
                   <div className="text-xs text-gold">{lang === 'en' ? `≈ ${selectedService.priceTON} TON` : `≈ ${selectedService.pricingTier1_Price.toLocaleString('ru-RU')} ₽`}</div>
                 </div>
-                <PaymentSection amount={selectedService.priceTON} lang={lang} comment={`[${selectedService.packageId}] ${getText(selectedService, 'packageName')}`} />
+                <div className="flex flex-col items-end gap-2">
+                  <PaymentSection amount={selectedService.priceTON} lang={lang} comment={`[${selectedService.packageId}] ${getText(selectedService, 'packageName')}`} />
+                </div>
               </div>
             </DialogContent>
           </Dialog>
         )}
 
         <Dialog open={showServicesList} onOpenChange={() => setShowServicesList(false)}>
-          <DialogContent className="liquid-surface border-gold/40 text-light-cream max-h-[90vh] w-[95vw] max-w-[720px] p-4 overflow-y-auto">
+          <DialogContent className="liquid-surface border-gold/40 text-light-cream max-h-[80vh] w-[92vw] max-w-[600px] p-3 sm:p-4 overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{t.servicesList}</DialogTitle>
               <DialogDescription className="text-light-cream/80">
@@ -383,12 +394,40 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
             <h3 className="text-2xl font-bold">LFG AI Market</h3>
             <p className="text-blue-300">lfgsyndicate.ton</p>
             <p className="text-sm text-gray-400">{t.contacts}: <a href="https://t.me/ruhunt" target="_blank" rel="noopener noreferrer" className="text-blue-300">@ruhunt</a> • Официальный TG: <a href="https://t.me/LFGsyndicate" target="_blank" rel="noopener noreferrer" className="text-blue-300">@LFGsyndicate</a></p>
-            <div className="pt-8 text-xs text-gray-500">
+            <div className="pt-4">
+              <button onClick={() => setShowPrivacyModal(true)} className="text-blue-400 hover:text-blue-300 underline text-sm">
+                {t.privacyAndTerms}
+              </button>
+            </div>
+            <div className="pt-4 text-xs text-gray-500">
               <p>© LFG AI Market</p>
               <p className="mt-2">{t.footerDisclaimer}</p>
             </div>
           </div>
         </footer>
+
+        {/* Privacy Policy Modal */}
+        <Dialog open={showPrivacyModal} onOpenChange={() => setShowPrivacyModal(false)}>
+          <DialogContent className="liquid-surface border-gold/40 text-light-cream max-h-[90vh] w-[95vw] max-w-[800px] p-4 overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-bold text-light-cream">{t.privacyAndTerms}</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-6 py-4 text-sm leading-relaxed">
+              <div>
+                <h3 className="font-bold text-gold mb-3">{t.privacyPolicy.title}</h3>
+                <div className="whitespace-pre-line text-light-cream/90">{t.privacyPolicy.userAgreement}</div>
+              </div>
+              <Separator className="my-6 liquid-separator" />
+              <div>
+                <div className="whitespace-pre-line text-light-cream/90">{t.privacyPolicy.publicOffer}</div>
+              </div>
+              <Separator className="my-6 liquid-separator" />
+              <div>
+                <div className="whitespace-pre-line text-light-cream/90">{t.privacyPolicy.privacyPolicy}</div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </LazyMotion>
   );

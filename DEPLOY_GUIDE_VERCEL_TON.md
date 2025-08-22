@@ -1,70 +1,58 @@
-# Деплой LFG to AI (TON Mini‑App) на Vercel + подключение домена + Mini Apps в Telegram
+# Deploy LFG AI Market (TON Mini-App) to Vercel + Domain Setup + Telegram Mini Apps
 
-## 1) Подготовка
-- Репозиторий: текущий проект, папка `TON_LFG/` — это корень мини‑приложения
-- Требуется аккаунт Vercel и GitHub
+## 1) Preparation
+- Repository: current project
+- Vercel and GitHub accounts required
 
-## 2) Создание проекта на Vercel
-1. Зайдите на `https://vercel.com/new` → Import Git Repository
-2. Выберите ваш репозиторий (тот же, где лежит `TON_LFG/`)
-3. Настройки проекта:
+## 2) Create Vercel Project
+1. Go to `https://vercel.com/new` → Import Git Repository
+2. Select your repository
+3. Project settings:
    - Framework Preset: `Vite`
-   - Root Directory: `TON_LFG`
    - Build Command: `npm run build`
    - Output Directory: `dist`
    - Install Command: `npm install`
-   - Environment Variables (опционально):
-     - `VITE_MANIFEST_URL` = `https://<ваш-домен>/tonconnect-manifest.json`
-4. Нажмите Deploy
+   - Environment Variables (optional):
+     - `VITE_MANIFEST_URL` = `https://<your-domain>/tonconnect-manifest.json`
+4. Click Deploy
 
-После деплоя получите URL вида `https://<project>-<hash>.vercel.app` — временный домен.
+After deployment you'll get a URL like `https://<project>-<hash>.vercel.app`
 
-## 3) Проверка манифеста TonConnect
-- Откройте `https://<ваш-домен>/tonconnect-manifest.json` — должен отдавать 200 OK
-- В файле `TON_LFG/public/tonconnect-manifest.json` убедитесь, что `iconUrl` — абсолютный HTTPS
+## 3) TonConnect Manifest Check
+- Open `https://<your-domain>/tonconnect-manifest.json` — should return 200 OK
+- In `public/tonconnect-manifest.json` ensure `iconUrl` is absolute HTTPS
 
-## 4) Привязка домена
+## 4) Domain Setup
 Vercel → Project → Settings → Domains:
-1. `Add Domain` → введите домен мини‑приложения (например, `mini.example.com`)
-2. Следуйте инструкции Vercel по DNS:
-   - Для обычного DNS: создайте CNAME на `cname.vercel-dns.com`
-   - Дождитесь статуса `Valid` в Vercel
+1. `Add Domain` → enter your mini-app domain
+2. Follow Vercel DNS instructions:
+   - For regular DNS: create CNAME to `cname.vercel-dns.com`
+   - Wait for `Valid` status in Vercel
 
-Примечание по `lfgsyndicate.ton`:
-- Если используете TON DNS, а сам сайт хостится на Vercel, нужен шлюз/прокси (мост из TON DNS к HTTPS‑домену) — либо используйте обычный DNS‑поддомен для Mini‑App.
+## 5) Enable Mini Apps in Telegram
+1. `@BotFather` → `/setdomain` → specify `https://<your-domain>`
+2. `/setname`, `/setdescription` — name and description
+3. Entry point: `t.me/<YOUR_BOT>?startapp`
 
-## 5) Включение Mini Apps в Telegram
-1. `@BotFather` → `/setdomain` → укажите `https://<ваш-домен>`
-2. `/setname`, `/setdescription` — имя и описание
-3. Точка входа: `t.me/<ВАШ_БОТ>?startapp`
+## 6) Checklist
+- [ ] `https://<your-domain>` opens Mini-App
+- [ ] `https://<your-domain>/tonconnect-manifest.json` accessible (200 OK)
+- [ ] Icon link in manifest is accessible
+- [ ] TonConnect wallet connection works without errors
+- [ ] Test transaction works with your wallet address
 
-## 6) Чек‑лист
-- [ ] `https://<ваш-домен>` открывает Mini‑App
-- [ ] `https://<ваш-домен>/tonconnect-manifest.json` доступен (200 OK)
-- [ ] Иконка по ссылке в манифесте доступна
-- [ ] Подключение кошелька TonConnect проходит без ошибок
-- [ ] Тестовая транзакция уходит на `UQC1WXkJ_7t7sGu6ZTZ9BGoR6YAwtPoKoUf7KZtrgOQ3w7km`
-
-## 7) Команды git (из корня репозитория)
-```powershell
-cd TON_LFG
+## 7) Git Commands (from repository root)
+```bash
 git add -A
-git commit -m "feat(ton-lfg): mini-app LFG to AI + deploy guide"
-git push -u origin main
-```
-Или через PR:
-```powershell
-git checkout -b feature/ton-lfg-miniapp
-git add -A
-git commit -m "feat(ton-lfg): mini-app LFG to AI + deploy guide"
-git push -u origin feature/ton-lfg-miniapp
+git commit -m "feat: LFG AI Market mini-app deployment"
+git push origin main
 ```
 
 ## 8) Troubleshooting
 - `app manifest error`:
-  - Проверьте `VITE_MANIFEST_URL` → продакшен‑URL манифеста
-  - В `tonconnect-manifest.json` `url` и `iconUrl` — абсолютные HTTPS
-  - Очистите кэш Mini‑App/кошелька и переподключите
-- Mini‑App не открывается:
-  - Проверьте `/setdomain` у BotFather и SSL на домене
-  - Убедитесь, что деплой завершён, а страницы отдают 200 OK
+  - Check `VITE_MANIFEST_URL` → production manifest URL
+  - In `tonconnect-manifest.json` `url` and `iconUrl` must be absolute HTTPS
+  - Clear Mini-App/wallet cache and reconnect
+- Mini-App won't open:
+  - Check `/setdomain` in BotFather and SSL on domain
+  - Ensure deployment is complete and pages return 200 OK
