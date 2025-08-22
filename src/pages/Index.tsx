@@ -289,10 +289,10 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
           <section className="container mx-auto px-6 py-16 text-center">
             <h2 className="text-3xl font-bold mb-4">{t.customPaymentTitle}</h2>
             <p className="text-light-cream/90 mb-8 max-w-2xl mx-auto">{t.customPaymentSubtitle}</p>
-            <div className="text-[10px] text-light-cream/70 text-center max-w-[300px] mx-auto mb-6 leading-tight">
+            <div className="text-[10px] text-light-cream/70 text-center max-w-[300px] mx-auto mb-4 leading-tight">
               {t.paymentTermsNotice} <button onClick={() => setShowPrivacyModal(true)} className="text-blue-400 hover:text-blue-300 underline">{t.termsOfService}</button>
             </div>
-            <div className="flex justify-center mb-4">
+            <div className="flex justify-center mb-6">
               <TonConnectButton className="scale-90" />
             </div>
             <div className="flex justify-center">
@@ -330,9 +330,9 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                 <div className="text-[10px] text-light-cream/70 text-center leading-tight">
                   {t.paymentTermsNotice} <button onClick={() => setShowPrivacyModal(true)} className="text-blue-400 hover:text-blue-300 underline">{t.termsOfService}</button>
                 </div>
-                <div className="flex justify-center py-2">
-                  <TonConnectButton className="scale-90" />
-                </div>
+              </div>
+              <div className="flex justify-center py-3">
+                <TonConnectButton className="scale-90" />
               </div>
               <div className="flex justify-between items-center pt-4 border-t border-gold/20">
                 <div>
