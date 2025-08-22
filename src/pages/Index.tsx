@@ -164,7 +164,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
   return (
     <LazyMotion features={domAnimation}>
       <div className="bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white">
-        <header className="fixed top-[3.4375rem] sm:top-8 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-5xl rounded-lg bg-gradient-to-br from-blue-900/85 via-purple-900/85 to-indigo-900/85 backdrop-blur-md border border-white/20 px-2.5 py-1.5 sm:px-4 sm:py-2 flex justify-between items-center shadow-lg">
+        <header className="fixed top-[4.375rem] sm:top-8 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-5xl rounded-lg bg-gradient-to-br from-blue-900/85 via-purple-900/85 to-indigo-900/85 backdrop-blur-md border border-white/20 px-2.5 py-1.5 sm:px-4 sm:py-2 flex justify-between items-center shadow-lg">
           <button
             onClick={() => {
               const heroSection = document.getElementById('hero');
@@ -192,7 +192,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
           </div>
         </header>
 
-        <main className="pt-16 sm:pt-20">
+        <main className="pt-20 sm:pt-20">
           <section id="hero" className="relative min-h-[70vh] overflow-hidden flex items-center justify-center pt-2 sm:pt-4">
             {/* Vanta.js background */}
             <div id="vanta-bg" className="absolute inset-0"></div>
