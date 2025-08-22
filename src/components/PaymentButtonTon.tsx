@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { TonConnectButton, useTonConnectUI, useTonWallet, useTonAddress } from '@tonconnect/ui-react';
+import { useTonConnectUI, useTonWallet, useTonAddress } from '@tonconnect/ui-react';
 // Ensure Buffer exists before loading @ton/core (dynamic import used below)
 import { Buffer } from 'buffer';
 (window as any).Buffer = (window as any).Buffer || Buffer;
@@ -108,9 +108,25 @@ export function PaymentSection({ amount, lang, comment }: Props) {
     await executePayment(paymentAmount, comment);
   };
 
+  const handleConnectWallet = async () => {
+    try {
+      await tonConnectUI.openModal();
+    } catch (error) {
+      console.error('Failed to open wallet modal:', error);
+      toast(lang === 'ru' ? 'Ошибка при открытии кошелька' : 'Error opening wallet');
+    }
+  };
+
   return (
     <div className="flex items-center gap-2 flex-wrap">
-      <TonConnectButton className="scale-90" />
+      {!wallet?.account && (
+        <button
+          onClick={handleConnectWallet}
+          className="px-3 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg text-white font-semibold text-sm transition-colors"
+        >
+          {lang === 'ru' ? 'Подключить кошелек' : 'Connect Wallet'}
+        </button>
+      )}
       {amount === undefined && (
         <input
           className="w-32 px-3 py-2 bg-transparent border border-white/30 rounded text-white placeholder:text-gray-300 text-sm focus:border-white/60 focus:outline-none backdrop-blur-sm"

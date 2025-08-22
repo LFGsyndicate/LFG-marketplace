@@ -11,7 +11,7 @@ import './liquid-glass.css';
 import { Separator } from '@/components/ui/separator';
 import { PaymentSection } from '@/components/PaymentButtonTon';
 import { texts, Lang } from '@/i18n';
-import { TonConnectButton } from '@tonconnect/ui-react';
+import { TonConnectButton, useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
 
 const RECIPIENT = 'lfgsyndicate.ton';
 
@@ -59,7 +59,18 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [showServicesList, setShowServicesList] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  const [tonConnectUI] = useTonConnectUI();
+  const wallet = useTonWallet();
   const t = texts[lang];
+
+  // Custom wallet connection function
+  const handleConnectWallet = async () => {
+    try {
+      await tonConnectUI.openModal();
+    } catch (error) {
+      console.error('Failed to open wallet modal:', error);
+    }
+  };
 
   // Helper to get localized field from service data
   const getText = useCallback((s: any, key: string) => {
@@ -293,7 +304,18 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
               {t.paymentTermsNotice} <button onClick={() => setShowPrivacyModal(true)} className="text-blue-400 hover:text-blue-300 underline">{t.termsOfService}</button>
             </div>
             <div className="flex justify-center mb-6">
-              <TonConnectButton className="scale-90" />
+              {!wallet?.account ? (
+                <button
+                  onClick={handleConnectWallet}
+                  className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg text-white font-semibold text-sm transition-colors"
+                >
+                  {lang === 'ru' ? 'Подключить кошелек' : 'Connect Wallet'}
+                </button>
+              ) : (
+                <div className="text-sm text-green-400 text-center">
+                  {lang === 'ru' ? 'Кошелек подключен' : 'Wallet Connected'}
+                </div>
+              )}
             </div>
             <div className="flex justify-center">
               <div className="flex flex-col items-center gap-2">
@@ -332,7 +354,18 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                 </div>
               </div>
               <div className="flex justify-center py-3">
-                <TonConnectButton className="scale-90" />
+                {!wallet?.account ? (
+                  <button
+                    onClick={handleConnectWallet}
+                    className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg text-white font-semibold text-sm transition-colors"
+                  >
+                    {lang === 'ru' ? 'Подключить кошелек' : 'Connect Wallet'}
+                  </button>
+                ) : (
+                  <div className="text-sm text-green-400 text-center">
+                    {lang === 'ru' ? 'Кошелек подключен' : 'Wallet Connected'}
+                  </div>
+                )}
               </div>
               <div className="flex justify-between items-center pt-4 border-t border-gold/20">
                 <div>
