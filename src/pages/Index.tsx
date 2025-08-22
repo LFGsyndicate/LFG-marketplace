@@ -188,7 +188,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
             >
               {t.servicesList}
             </Button>
-            <TonConnectButton className="scale-[0.65] sm:scale-75 ml-0.5" />
+            <TonConnectButton className="scale-[0.65] sm:scale-75 ml-0.25" />
           </div>
         </header>
 
