@@ -9,6 +9,7 @@ type Props = {
   amount?: number; // Сумма в TON, опционально
   lang: keyof typeof texts;
   comment?: string; // Заголовок услуги (локализованный)
+  onCloseModal?: () => void; // Function to close modal when wallet connect is needed
 };
 
 const toNano = (tons: number): string => Math.round(tons * 1e9).toString();
@@ -20,7 +21,7 @@ const bytesToBase64 = (bytes: Uint8Array): string => {
   return btoa(binary);
 };
 
-export function PaymentSection({ amount, lang, comment }: Props) {
+export function PaymentSection({ amount, lang, comment, onCloseModal }: Props) {
   const [customAmount, setCustomAmount] = useState('');
   const [tonConnectUI] = useTonConnectUI();
   const wallet = useTonWallet();
@@ -128,9 +129,10 @@ export function PaymentSection({ amount, lang, comment }: Props) {
         <div className="text-[10px] bg-blue-500/10 px-1.5 py-0.5 rounded border border-blue-500/20">
           <button
             onClick={() => {
-              // Close any open modals first
-              const closeButtons = document.querySelectorAll('[data-dialog-close]');
-              closeButtons.forEach(btn => (btn as HTMLElement)?.click());
+              // Close modal if close function is provided
+              if (onCloseModal) {
+                onCloseModal();
+              }
               
               // Scroll to header after a brief delay
               setTimeout(() => {

@@ -301,16 +301,6 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
         {selectedService && (
           <Dialog open={!!selectedService} onOpenChange={() => setSelectedService(null)}>
             <DialogContent className="liquid-surface border-gold/40 text-light-cream max-w-[400px] w-[92vw] max-h-[85vh] overflow-y-auto p-3 sm:p-4">
-              {/* Add close button with data attribute for detection */}
-              <button 
-                data-dialog-close
-                onClick={() => setSelectedService(null)}
-                className="absolute top-2 right-2 p-1 rounded-full hover:bg-white/10 transition-colors"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
               <DialogHeader>
                 <DialogTitle>{getText(selectedService, 'packageName')}</DialogTitle>
                 <DialogDescription className="text-light-cream/80">{getText(selectedService, 'painPoint')}</DialogDescription>
@@ -336,13 +326,13 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                   {t.paymentTermsNotice} <button onClick={() => setShowPrivacyModal(true)} className="text-blue-400 hover:text-blue-300 underline">{t.termsOfService}</button>
                 </div>
               </div>
-              <div className="flex justify-between items-center pt-4 border-t border-gold/20">
-                <div>
-                  <div className="text-2xl font-bold text-accent-green">{lang === 'en' ? `$${(selectedService.pricingTier1_Price / 90).toFixed(2)}` : `${selectedService.priceTON} TON`}</div>
+              <div className="flex justify-between items-start pt-4 border-t border-gold/20 gap-4">
+                <div className="flex-shrink-0">
+                  <div className="text-sm font-semibold text-accent-green">{lang === 'en' ? `$${(selectedService.pricingTier1_Price / 90).toFixed(2)}` : `${selectedService.priceTON} TON`}</div>
                   <div className="text-xs text-gold">{lang === 'en' ? `≈ ${selectedService.priceTON} TON` : `≈ ${selectedService.pricingTier1_Price.toLocaleString('ru-RU')} ₽`}</div>
                 </div>
-                <div className="flex flex-col items-end gap-2">
-                  <PaymentSection amount={selectedService.priceTON} lang={lang} comment={`[${selectedService.packageId}] ${getText(selectedService, 'packageName')}`} />
+                <div className="flex flex-col items-end gap-3">
+                  <PaymentSection amount={selectedService.priceTON} lang={lang} comment={`[${selectedService.packageId}] ${getText(selectedService, 'packageName')}`} onCloseModal={() => setSelectedService(null)} />
                 </div>
               </div>
             </DialogContent>
@@ -351,16 +341,6 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
 
         <Dialog open={showServicesList} onOpenChange={() => setShowServicesList(false)}>
           <DialogContent className="liquid-surface border-gold/40 text-light-cream max-h-[80vh] w-[92vw] max-w-[600px] p-3 sm:p-4 overflow-y-auto">
-            {/* Add close button with data attribute for detection */}
-            <button 
-              data-dialog-close
-              onClick={() => setShowServicesList(false)}
-              className="absolute top-2 right-2 p-1 rounded-full hover:bg-white/10 transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
             <DialogHeader>
               <DialogTitle>{t.servicesList}</DialogTitle>
               <DialogDescription className="text-light-cream/80">
@@ -427,16 +407,6 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
         {/* Privacy Policy Modal */}
         <Dialog open={showPrivacyModal} onOpenChange={() => setShowPrivacyModal(false)}>
           <DialogContent className="liquid-surface border-gold/40 text-light-cream max-h-[90vh] w-[95vw] max-w-[800px] p-4 overflow-y-auto">
-            {/* Add close button with data attribute for detection */}
-            <button 
-              data-dialog-close
-              onClick={() => setShowPrivacyModal(false)}
-              className="absolute top-2 right-2 p-1 rounded-full hover:bg-white/10 transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
             <DialogHeader>
               <DialogTitle className="text-xl font-bold text-light-cream">{t.privacyAndTerms}</DialogTitle>
             </DialogHeader>
