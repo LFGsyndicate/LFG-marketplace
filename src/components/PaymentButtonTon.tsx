@@ -25,10 +25,106 @@ export function PaymentSection({ amount, lang, comment }: Props) {
   const [customAmount, setCustomAmount] = useState('');
   const [isPendingConnection, setIsPendingConnection] = useState(false);
   const [pendingPaymentData, setPendingPaymentData] = useState<{amount: number, comment?: string} | null>(null);
+  const [modalOpenTime, setModalOpenTime] = useState<number | null>(null);
+  const [connectionAttempts, setConnectionAttempts] = useState(0);
   const [tonConnectUI] = useTonConnectUI();
   const wallet = useTonWallet();
   const userFriendlyAddress = useTonAddress(); // EQ...
   const t = texts[lang];
+
+  // Подписка на состояние модального окна по официальной документации
+  useEffect(() => {
+    if (!tonConnectUI) return;
+    
+    const unsubscribe = tonConnectUI.onModalStateChange((state) => {
+      console.log('Modal state changed:', state);
+      
+      // Отслеживаем открытие модального окна
+      if (state.status === 'opened' && isPendingConnection) {
+        setModalOpenTime(Date.now());
+        console.log('Modal opened for wallet connection');
+      }
+      
+      // Если модальное окно закрылось и мы ожидали подключения
+      if (state.status === 'closed' && isPendingConnection) {
+        const closeTime = Date.now();
+        const modalWasOpenFor = modalOpenTime ? closeTime - modalOpenTime : 0;
+        
+        console.log('Modal closed with reason:', state.closeReason, 'was open for:', modalWasOpenFor, 'ms');
+        
+        // Определяем тип закрытия модального окна более точно
+        const isQuickClose = modalWasOpenFor < 1000; // Закрыли слишком быстро
+        const isUserCancellation = state.closeReason === 'action-cancelled' || 
+                                   (isQuickClose && !state.closeReason); // Быстрое закрытие без причины = отмена
+        
+        const isWalletSelection = state.closeReason === 'wallet-selected' || 
+                                 (!isQuickClose && !state.closeReason); // Не быстрое закрытие без причины = выбор кошелька
+        
+        if (isUserCancellation) {
+          // Пользователь явно отменил подключение (нажал X, ESC или быстро закрыл)
+          console.log('User explicitly cancelled wallet connection');
+          setIsPendingConnection(false);
+          setPendingPaymentData(null);
+          setModalOpenTime(null);
+          setConnectionAttempts(0);
+          toast("Подключение кошелька отменено");
+        } else if (isWalletSelection) {
+          // Кошелек выбран - переходим к подключению
+          console.log('Wallet selected, transitioning to connection...');
+          setConnectionAttempts(prev => prev + 1);
+          toast("Открываем кошелек для подтверждения подключения...");
+          // НЕ сбрасываем isPendingConnection - ждем подключения!
+          
+          // Если слишком много попыток - сбрасываем через некоторое время
+          if (connectionAttempts >= 3) {
+            console.log('Too many connection attempts, will reset soon');
+            setTimeout(() => {
+              if (isPendingConnection) {
+                setIsPendingConnection(false);
+                setPendingPaymentData(null);
+                setModalOpenTime(null);
+                setConnectionAttempts(0);
+                toast("Превышено количество попыток подключения. Попробуйте еще раз.");
+              }
+            }, 10000); // 10 секунд
+          }
+        } else {
+          // Неизвестная причина - логируем для отладки но продолжаем
+          console.log('Unknown modal close reason, continuing connection process...');
+          toast("Продолжаем подключение кошелька...");
+        }
+        
+        setModalOpenTime(null);
+      }
+    });
+    
+    return () => {
+      unsubscribe();
+    };
+  }, [tonConnectUI, isPendingConnection, modalOpenTime, connectionAttempts]);
+
+  // Подписка на статус кошелька для лучшего отслеживания подключения
+  useEffect(() => {
+    if (!tonConnectUI) return;
+    
+    const unsubscribe = tonConnectUI.onStatusChange((walletInfo) => {
+      console.log('Wallet status changed:', walletInfo);
+      
+      // Если кошелек подключился и мы ожидали подключения
+      if (walletInfo && isPendingConnection) {
+        console.log('Wallet connected via status change:', walletInfo);
+        toast("Кошелек успешно подключен!");
+        // Позволяем useEffect обработать это через wallet?.account
+      } else if (!walletInfo && isPendingConnection) {
+        // Кошелек отключился во время ожидания
+        console.log('Wallet disconnected during pending connection');
+      }
+    });
+    
+    return () => {
+      unsubscribe();
+    };
+  }, [tonConnectUI, isPendingConnection]);
 
   const buildCommentPayload = async (title?: string, pkgId?: string): Promise<string | undefined> => {
     // Собираем комментарий: "[<pkgId>] <title> | buyer: <address>"
@@ -45,19 +141,6 @@ export function PaymentSection({ amount, lang, comment }: Props) {
     const cell = beginCell().storeUint(0, 32).storeStringTail(text).endCell();
     return bytesToBase64(cell.toBoc());
   };
-
-  // Effect to handle wallet connection completion
-  useEffect(() => {
-    if (wallet?.account && isPendingConnection && pendingPaymentData) {
-      // Wallet just connected and we have pending payment data
-      setIsPendingConnection(false);
-      const { amount: pendingAmount, comment: pendingComment } = pendingPaymentData;
-      setPendingPaymentData(null);
-      
-      // Execute the payment with the stored data
-      executePayment(pendingAmount, pendingComment);
-    }
-  }, [wallet?.account, isPendingConnection, pendingPaymentData]);
 
   const executePayment = useCallback(async (paymentAmount: number, paymentComment?: string) => {
     try {
@@ -100,7 +183,52 @@ export function PaymentSection({ amount, lang, comment }: Props) {
         toast("Ошибка при отправке платежа. Попробуйте ещё раз");
       }
     }
-  }, [tonConnectUI, userFriendlyAddress, wallet]);
+  }, [tonConnectUI, userFriendlyAddress, wallet, buildCommentPayload]);
+
+  // Effect to handle wallet connection completion
+  useEffect(() => {
+    if (wallet?.account && isPendingConnection && pendingPaymentData) {
+      // Wallet just connected and we have pending payment data
+      console.log('Wallet connected successfully, proceeding with payment:', {
+        walletAddress: wallet.account.address,
+        pendingAmount: pendingPaymentData.amount
+      });
+      
+      setIsPendingConnection(false);
+      setModalOpenTime(null);
+      setConnectionAttempts(0);
+      const { amount: pendingAmount, comment: pendingComment } = pendingPaymentData;
+      setPendingPaymentData(null);
+      
+      // Показываем успешное подключение
+      toast("Кошелек успешно подключен! Продолжаем оплату...");
+      
+      // Небольшая задержка для полной инициализации кошелька
+      setTimeout(() => {
+        executePayment(pendingAmount, pendingComment);
+      }, 1000);
+    }
+  }, [wallet?.account, isPendingConnection, pendingPaymentData, executePayment]);
+
+  // Таймаут для сброса состояния ожидания подключения
+  useEffect(() => {
+    if (!isPendingConnection) return;
+    
+    const timeout = setTimeout(() => {
+      if (isPendingConnection) {
+        console.log('Connection timeout, resetting state');
+        setIsPendingConnection(false);
+        setPendingPaymentData(null);
+        setModalOpenTime(null);
+        setConnectionAttempts(0);
+        toast("Время ожидания подключения истекло. Попробуйте ещё раз.");
+      }
+    }, 60000); // 60 секунд таймаут
+    
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [isPendingConnection]);
 
   const handlePay = async () => {
     const paymentAmount = amount ?? parseFloat(customAmount);
@@ -111,6 +239,12 @@ export function PaymentSection({ amount, lang, comment }: Props) {
 
     // Проверяем подключение кошелька
     if (!wallet?.account) {
+      // Проверяем что TON Connect UI инициализирован
+      if (!tonConnectUI || typeof tonConnectUI.openModal !== 'function') {
+        toast("Ошибка инициализации TON Connect. Перезагрузите страницу.");
+        return;
+      }
+      
       // Сохраняем данные платежа для выполнения после подключения
       setPendingPaymentData({ amount: paymentAmount, comment });
       setIsPendingConnection(true);
@@ -118,18 +252,33 @@ export function PaymentSection({ amount, lang, comment }: Props) {
       toast("Подключение кошелька...");
       
       try {
-        // Ensure any existing modal is closed first
-        if (tonConnectUI.modal?.state?.status === 'opened') {
-          tonConnectUI.modal.close();
-          await new Promise(resolve => setTimeout(resolve, 100));
+        // Проверяем состояние модального окна по официальной документации
+        const currentModalState = tonConnectUI.modalState;
+        
+        // Если модальное окно уже открыто, закрываем его сначала
+        if (currentModalState?.status === 'opened') {
+          console.log('Modal is already open, closing first...');
+          tonConnectUI.closeModal();
+          // Ждем пока модальное окно закроется
+          await new Promise(resolve => setTimeout(resolve, 300));
         }
         
+        // Открываем модальное окно согласно официальной документации
+        console.log('Opening TON Connect modal...');
         await tonConnectUI.openModal();
+        console.log('Modal opened successfully');
+        
       } catch (e: any) {
         console.error('Error opening wallet modal:', e);
         setIsPendingConnection(false);
         setPendingPaymentData(null);
-        toast("Ошибка подключения кошелька. Попробуйте кнопку Connect Wallet в заголовке.");
+        
+        // Показываем ошибку с рекомендациями
+        if (e?.message?.includes('TonConnectUIError') || e?.message?.includes('TonConnectError')) {
+          toast("Ошибка TON Connect. Попробуйте кнопку 'Connect Wallet' в заголовке.");
+        } else {
+          toast("Не удалось открыть модальное окно кошелька. Используйте кнопку 'Connect Wallet' в заголовке.");
+        }
       }
       return;
     }
@@ -157,7 +306,7 @@ export function PaymentSection({ amount, lang, comment }: Props) {
         disabled={(!amount && (!parseFloat(customAmount) || parseFloat(customAmount) <= 0)) || isPendingConnection}
       >
         {isPendingConnection 
-          ? (lang === 'ru' ? 'Подключение...' : 'Connecting...') 
+          ? (lang === 'ru' ? 'Ожидание подключения...' : 'Waiting for connection...') 
           : (amount ? `${t.pay} ${amount} TON` : t.pay)
         }
       </button>

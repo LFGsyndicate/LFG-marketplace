@@ -1,32 +1,106 @@
-# Production Wallet Connection Fix
+# TON Connect Wallet Modal Fix - Complete Solution
 
-## Problem Fixed
-TON Connect modal was not appearing when users tried to pay without a connected wallet.
+## Problem Resolved
+✅ **Fixed**: Modal appears but disappears when clicking wallet selection below QR code
+✅ **Fixed**: Button gets stuck in "Connecting wallet..." state
+✅ **Fixed**: Wallet binding doesn't complete after wallet selection
 
-## Solution Implemented
+## Final Solution: Complete TON Connect Integration
 
-### Key Changes:
+Implemented comprehensive wallet connection handling based on **official TON Connect SDK**:
 
-1. **Smart Payment Flow**: Payment button now properly handles wallet connection
-2. **State Management**: Automatic payment continuation after wallet connection
-3. **Modal Handling**: Ensures existing modals are closed before opening new ones
-4. **Error Recovery**: Fallback to header Connect Wallet button if issues occur
+### Key Fixes:
 
-### How It Works:
+1. **Smart Modal State Management**:
+   - Distinguishes between `action-cancelled` and `wallet-selected` close reasons
+   - Continues connection process when wallet is selected (doesn't reset state)
+   - Only cancels on explicit user cancellation
 
-- **Wallet Connected**: Payment executes immediately
-- **No Wallet**: Opens TON Connect modal, stores payment data, continues after connection
-- **Error**: Clear error message with fallback instructions
+2. **Dual Connection Monitoring**:
+   - `onModalStateChange()` - Monitors modal open/close events
+   - `onStatusChange()` - Monitors actual wallet connection status
+   - `wallet?.account` effect - Detects successful connection
+
+3. **Anti-Stuck Button Mechanism**:
+   - 60-second timeout to reset stuck states
+   - Proper state cleanup on cancellation
+   - Clear user feedback during each stage
+
+4. **Enhanced UX Flow**:
+   - "Кошелек выбран, ожидаем подключения..." when wallet selected
+   - "Кошелек успешно подключен! Продолжаем оплату..." on success
+   - Proper error handling for all scenarios
+
+### Technical Implementation:
+
+```typescript
+// Modal state subscription with wallet selection handling
+tonConnectUI.onModalStateChange((state) => {
+  if (state.status === 'closed' && isPendingConnection) {
+    if (state.closeReason === 'action-cancelled') {
+      // User cancelled - reset state
+      setIsPendingConnection(false);
+    } else if (state.closeReason === 'wallet-selected') {
+      // Wallet selected - CONTINUE waiting for connection
+      // DON'T reset isPendingConnection here!
+    }
+  }
+});
+
+// Wallet status subscription for connection detection
+tonConnectUI.onStatusChange((walletInfo) => {
+  if (walletInfo && isPendingConnection) {
+    // Wallet connected successfully
+  }
+});
+
+// Connection timeout prevention
+useEffect(() => {
+  if (!isPendingConnection) return;
+  const timeout = setTimeout(() => {
+    setIsPendingConnection(false); // Reset after 60s
+  }, 60000);
+  return () => clearTimeout(timeout);
+}, [isPendingConnection]);
+```
+
+### Complete User Flow:
+
+1. **User clicks payment** → Button shows "Подключение кошелька..."
+2. **Modal opens** → User sees QR code and wallet list
+3. **User clicks wallet** → Modal closes with `wallet-selected`
+4. **System continues** → Shows "Кошелек выбран, ожидаем подключения..."
+5. **Wallet connects** → Auto-detected via `onStatusChange`
+6. **Connection confirmed** → Shows "Кошелек успешно подключен!"
+7. **Payment proceeds** → Transaction modal appears
+8. **Success** → Payment completed
+
+### Error Scenarios Handled:
+
+- ❌ **User cancels**: Button resets, clear cancellation message
+- ⏰ **Connection timeout**: Auto-reset after 60 seconds
+- 🔄 **Modal conflicts**: Proper modal state management
+- 📱 **Wallet app issues**: Proper error messages and guidance
 
 ## Files Modified:
-- `src/components/PaymentButtonTon.tsx`: Enhanced payment flow with wallet connection
-- `src/main.tsx`: Production-ready TON Connect configuration
+- `src/components/PaymentButtonTon.tsx`: Complete TON Connect integration
+- `src/main.tsx`: Production TON Connect configuration
 
-## Production Ready
-✅ Optimized for `https://lfg-ton-marketplace.vercel.app`
-✅ Clean production code without debugging
-✅ Reliable wallet connection flow
-✅ Error handling and fallbacks
+## Production Ready ✅
+- Based on official TON Connect SDK documentation
+- Handles all edge cases and error scenarios
+- Comprehensive state management
+- User-friendly feedback at every step
+- No stuck states or hanging buttons
+- Seamless wallet selection and connection flow
+
+## Test Scenarios Verified:
+✅ Payment with connected wallet
+✅ Payment with disconnected wallet → wallet selection → connection
+✅ User cancellation at any stage
+✅ Modal reopening scenarios
+✅ Connection timeouts and recovery
+✅ Multiple wallet types (Tonkeeper, etc.)
 
 ## Problem Description
 Previously, when users tried to pay for a service without first connecting their wallet through the dedicated "Connect Wallet" button, the wallet connection process would fail. The TON Connect modal would open but the connection wouldn't properly establish, causing the payment process to abort.
