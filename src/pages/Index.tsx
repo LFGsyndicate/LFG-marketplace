@@ -172,11 +172,11 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                 heroSection.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            className="text-xs sm:text-sm md:text-base font-bold hover:text-accent-green transition-colors leading-tight flex-shrink-0 mr-4"
+            className="text-xs sm:text-sm md:text-base font-bold hover:text-accent-green transition-colors leading-tight flex-shrink-0 mr-2"
           >
             LFG AI Market
           </button>
-          <div className="flex items-center gap-0.5 ml-auto">
+          <div className="flex items-center gap-0.5 ml-auto mr-1">
             <div className="flex gap-0.5">
               <button onClick={() => onLangChange('ru')} className={`px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-[10px] sm:text-xs transition-colors ${lang === 'ru' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}>RU</button>
               <button onClick={() => onLangChange('en')} className={`px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-[10px] sm:text-xs transition-colors ${lang === 'en' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}>EN</button>
@@ -188,7 +188,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
             >
               {t.servicesList}
             </Button>
-            <TonConnectButton className="scale-75 sm:scale-90 ml-0.5" />
+            <TonConnectButton className="scale-[0.65] sm:scale-75 ml-0.5" />
           </div>
         </header>
 
