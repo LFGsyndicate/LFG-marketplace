@@ -390,7 +390,11 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
         <footer className="container mx-auto px-6 py-16 border-t border-white/10 mt-16">
           <div className="text-center space-y-4">
             <h3 className="text-2xl font-bold">LFG AI Market</h3>
-            <p className="text-blue-300">lfgsyndicate.ton</p>
+            <p className="text-blue-300">
+              <a href="https://t.me/lfg_ai_bot" target="_blank" rel="noopener noreferrer" className="hover:text-blue-200 transition-colors">
+                @lfg_ai_bot
+              </a>
+            </p>
             <p className="text-sm text-gray-400">{t.contacts}: <a href="https://t.me/ruhunt" target="_blank" rel="noopener noreferrer" className="text-blue-300">@ruhunt</a> • Официальный TG: <a href="https://t.me/LFGsyndicate" target="_blank" rel="noopener noreferrer" className="text-blue-300">@LFGsyndicate</a></p>
             <div className="pt-4">
               <button onClick={() => setShowPrivacyModal(true)} className="text-blue-400 hover:text-blue-300 underline text-sm">
