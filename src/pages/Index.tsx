@@ -12,17 +12,18 @@ import { Separator } from '@/components/ui/separator';
 import { PaymentSection } from '@/components/PaymentButtonTon';
 import { texts, Lang } from '@/i18n';
 import { TonConnectButton } from '@tonconnect/ui-react';
+import { useTonPrice } from '@/hooks/useTonPrice';
 
 const heroSlides: { intro?: boolean; category?: string; title: Record<Lang, string>; subtitle: Record<Lang, string> }[] = [
-  { 
-    intro: true, 
-    title: { ru: 'Готовые AI-решения с гарантированным ROI', en: 'Ready AI Solutions with Guaranteed ROI' }, 
-    subtitle: { ru: '54+ проверенных решений. Внедрение за 1-4 недели. Фиксированная цена. Гарантированный результат.', en: '54+ proven solutions. Implementation in 1-4 weeks. Fixed price. Guaranteed results.' } 
+  {
+    intro: true,
+    title: { ru: 'Готовые AI-решения с гарантированным ROI', en: 'Ready AI Solutions with Guaranteed ROI' },
+    subtitle: { ru: '54+ проверенных решений. Внедрение за 1-4 недели. Фиксированная цена. Гарантированный результат.', en: '54+ proven solutions. Implementation in 1-4 weeks. Fixed price. Guaranteed results.' }
   },
-  { 
-    category: "Маркетинг и Продажи", 
-    title: { ru: "Маркетинг, который окупается в 3-5 раз", en: "Marketing with a 3-5x ROI" }, 
-    subtitle: { ru: "AI находит ваших клиентов, создает контент-магниты и оптимизирует рекламу в реальном времени.", en: "AI finds your clients, creates content magnets, and optimizes ads in real-time." } 
+  {
+    category: "Маркетинг и Продажи",
+    title: { ru: "Маркетинг, который окупается в 3-5 раз", en: "Marketing with a 3-5x ROI" },
+    subtitle: { ru: "AI находит ваших клиентов, создает контент-магниты и оптимизирует рекламу в реальном времени.", en: "AI finds your clients, creates content magnets, and optimizes ads in real-time." }
   },
   {
     category: "AI-сотрудники",
@@ -58,6 +59,9 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
   const [showServicesList, setShowServicesList] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const t = texts[lang];
+
+  // Live TON price from TONAPI.io (updates every 10 seconds)
+  const { tonUsdPrice, usdToTon } = useTonPrice();
 
   // Helper to get localized field from service data
   const getText = useCallback((s: any, key: string) => {
@@ -98,7 +102,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
         document.head.appendChild(el);
       }
       el.textContent = JSON.stringify(jsonLd);
-    } catch {}
+    } catch { }
   }, []);
 
   const filteredServices = useMemo(() => {
@@ -195,7 +199,7 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
             {/* Vanta.js background */}
             <div id="vanta-bg" className="absolute inset-0"></div>
             <div className="relative z-10 w-full max-w-5xl lg:max-w-6xl text-center px-4">
-                            <Carousel opts={{ loop: true }} autoplayMs={7000} className="w-full relative" arrowsPosition="bottom">
+              <Carousel opts={{ loop: true }} autoplayMs={7000} className="w-full relative" arrowsPosition="bottom">
                 <CarouselContent>
                   {heroSlides.map((slide, index) => (
                     <CarouselItem key={index}>
@@ -259,10 +263,10 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                         <div className="mt-auto">
                           <Separator className="my-3 liquid-separator" />
                           <div className="flex flex-col gap-3">
-                             <div>
-                               <div className="text-2xl font-bold text-accent-green">{lang === 'en' ? `$${(service.pricingTier1_Price / 90).toFixed(2)}` : `${service.priceTON} TON`}</div>
-                              <div className="text-xs text-gold">{lang === 'en' ? `≈ ${service.priceTON} TON` : `≈ ${service.pricingTier1_Price.toLocaleString('ru-RU')} ₽`}</div>
-                             </div>
+                            <div>
+                              <div className="text-2xl font-bold text-accent-green">{usdToTon(service.priceUSD).toLocaleString()} TON</div>
+                              <div className="text-xs text-gold">≈ ${service.priceUSD.toLocaleString()}</div>
+                            </div>
                             <div className="flex gap-2 flex-wrap">
                               <Button
                                 onClick={() => setSelectedService(service)}
@@ -270,9 +274,9 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                               >
                                 {t.payButton}
                               </Button>
-                             <a href="https://t.me/ruhunt" target="_blank" rel="noopener noreferrer">
-                              <Button variant="outline" className="liquid-outline-btn">{t.helpButton}</Button>
-                             </a>
+                              <a href="https://t.me/ruhunt" target="_blank" rel="noopener noreferrer">
+                                <Button variant="outline" className="liquid-outline-btn">{t.helpButton}</Button>
+                              </a>
                             </div>
                           </div>
                         </div>
@@ -328,11 +332,11 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
               </div>
               <div className="flex justify-between items-start pt-4 border-t border-gold/20 gap-4">
                 <div className="flex-shrink-0">
-                  <div className="text-sm font-semibold text-accent-green">{lang === 'en' ? `$${(selectedService.pricingTier1_Price / 90).toFixed(2)}` : `${selectedService.priceTON} TON`}</div>
-                  <div className="text-xs text-gold">{lang === 'en' ? `≈ ${selectedService.priceTON} TON` : `≈ ${selectedService.pricingTier1_Price.toLocaleString('ru-RU')} ₽`}</div>
+                  <div className="text-sm font-semibold text-accent-green">{usdToTon(selectedService.priceUSD).toLocaleString()} TON</div>
+                  <div className="text-xs text-gold">≈ ${selectedService.priceUSD.toLocaleString()}</div>
                 </div>
                 <div className="flex flex-col items-end gap-3">
-                  <PaymentSection amount={selectedService.priceTON} lang={lang} comment={`[${selectedService.packageId}] ${getText(selectedService, 'packageName')}`} onCloseModal={() => setSelectedService(null)} />
+                  <PaymentSection amount={usdToTon(selectedService.priceUSD)} lang={lang} comment={`[${selectedService.packageId}] ${getText(selectedService, 'packageName')}`} onCloseModal={() => setSelectedService(null)} />
                 </div>
               </div>
             </DialogContent>
@@ -376,10 +380,8 @@ const Index = ({ lang, onLangChange }: { lang: Lang, onLangChange: (lang: Lang) 
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-sm font-bold text-accent-green">{service.priceTON} TON</div>
-                    <div className="text-xs text-gold">
-                      {lang === 'ru' ? `${service.pricingTier1_Price.toLocaleString('ru-RU')} ₽` : `$${(service.pricingTier1_Price / 90).toFixed(2)}`}
-                    </div>
+                    <div className="text-sm font-bold text-accent-green">{usdToTon(service.priceUSD).toLocaleString()} TON</div>
+                    <div className="text-xs text-gold">≈ ${service.priceUSD.toLocaleString()}</div>
                   </div>
                 </div>
               ))}
