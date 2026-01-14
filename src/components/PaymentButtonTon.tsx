@@ -28,19 +28,30 @@ export function PaymentSection({ amount, lang, comment, onCloseModal }: Props) {
   const userFriendlyAddress = useTonAddress(); // EQ...
   const t = texts[lang];
 
-
+  // Get Telegram User ID for order identification
+  const getTelegramUserId = (): string | undefined => {
+    try {
+      const tg = (window as any).Telegram?.WebApp;
+      const userId = tg?.initDataUnsafe?.user?.id;
+      return userId ? String(userId) : undefined;
+    } catch { return undefined; }
+  };
 
   const buildCommentPayload = async (title?: string, pkgId?: string): Promise<string | undefined> => {
-    // Собираем комментарий: "[<pkgId>] <title> | buyer: <address>"
+    // Get buyer identification
     const buyer = userFriendlyAddress || wallet?.account?.address;
-    // FIX: Prevent double ID in comment by cleaning the title
+    const tgUserId = getTelegramUserId();
+
+    // Format: "[PKG-ID] Service Name | tg:123456789 | wallet:EQxxx"
     const cleanTitle = pkgId && title ? title.replace(`[${pkgId}]`, '').trim() : title;
-    const titlePart = cleanTitle ? `${cleanTitle}` : '';
     const idPart = pkgId ? `[${pkgId}] ` : '';
-    const buyerPart = buyer ? ` | buyer: ${buyer}` : '';
-    const text = `${idPart}${titlePart}${buyerPart}`.trim();
+    const titlePart = cleanTitle ? `${cleanTitle}` : '';
+    const tgPart = tgUserId ? ` | tg:${tgUserId}` : '';
+    const walletPart = buyer ? ` | wallet:${buyer}` : '';
+
+    const text = `${idPart}${titlePart}${tgPart}${walletPart}`.trim();
     if (!text) return undefined;
-    
+
     try {
       // Dynamic import to avoid Buffer conflicts
       const { beginCell } = await import('@ton/core');
@@ -60,10 +71,10 @@ export function PaymentSection({ amount, lang, comment, onCloseModal }: Props) {
       // Пытаемся извлечь packageId из комментария, если передан формально как "[ID] ..."
       const maybeId = /\[([A-Z\-0-9]+)\]/i.exec(paymentComment || '')?.[1];
       const payload = await buildCommentPayload(paymentComment, maybeId);
-      
+
       // PRODUCTION: All payments are sent to this wallet address.
       const productionRecipient = 'UQC1WXkJ_7t7sGu6ZTZ9BGoR6YAwtPoKoUf7KZtrgOQ3w7km'; // Production wallet address
-      
+
       await tonConnectUI.sendTransaction({
         validUntil: Math.floor(Date.now() / 1000) + 600, // 10 минут
         messages: [
@@ -74,12 +85,12 @@ export function PaymentSection({ amount, lang, comment, onCloseModal }: Props) {
           }
         ]
       });
-      
+
       toast("Платеж успешно отправлен!");
-      
+
     } catch (e: any) {
       console.error('TON Payment Error:', e);
-      
+
       // Улучшенная обработка ошибок
       if (e?.message?.includes('Operation aborted') || e?.message?.includes('cancelled')) {
         toast("Платёж отменён пользователем");
@@ -133,7 +144,7 @@ export function PaymentSection({ amount, lang, comment, onCloseModal }: Props) {
               if (onCloseModal) {
                 onCloseModal();
               }
-              
+
               // Scroll to header after a brief delay
               setTimeout(() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -167,7 +178,7 @@ export function PaymentSection({ amount, lang, comment, onCloseModal }: Props) {
     <div className="flex flex-col items-center gap-2">
       {/* Dynamic wallet status - displayed above payment button */}
       <WalletStatus />
-      
+
       <div className="flex items-center gap-2 flex-wrap">
         {amount === undefined && (
           <input
